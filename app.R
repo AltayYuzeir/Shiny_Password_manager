@@ -1,13 +1,13 @@
 library(shiny)
-#library(rclipboard)
-#library(shinyWidgets)
+#library(rclipboard) # for 'Copy to Clipboard' buttons
+library(shinyWidgets) # for setting background color of UI elements
 #library(shinytitle)
-library(shinyalert)
-#library(shinyjs)
-#library(openssl)
+library(shinyalert) # fancy alerts for sucsess and failure
+#library(shinyjs) # to hide and show UI elements 
+#library(openssl) # to create our encryption key
 #library(rdrop2)
 #library(digest)
-#library(words)
+#library(words) # database to use for random password generator
 #library(dplyr)
 #library(stringr)
 
