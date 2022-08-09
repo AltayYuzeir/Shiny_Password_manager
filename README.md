@@ -3,13 +3,15 @@
 # YuCrypt - Password manager
 
 This is a simple and lightweight Password manager built with R and Shiny.\
-The main goal of this app is to enable seemless interaction with your encrypted password ladger.\
+The main goal of this app is to enable seemless interaction with your encrypted password ladger.
 
 # Setup
 Option 1: Locally\
 Step 1. Download all provided files.\
-Step 2. Download the [shinyShortcut](https://cran.r-project.org/web/packages/shinyShortcut/README.html) package and follow the instructions. You will get a standalone .vbs executable file which can be executed without R or RStudio being open.\
+Step 2. Download the [shinyShortcut](https://cran.r-project.org/web/packages/shinyShortcut/README.html) package and follow the instructions. You will get a standalone .vbs executable file which can be executed without R or RStudio being open.
 
 Option 2: Hosted online, e.g. shinyapps.io\
 Step 1: Download all files and create an account in shinyapps.io and follow their instructions furter.\
-Step 2: Here you will need a persistant data storage solution. One possibilty is to host your ledger in Dropbox with the help of the [rdrop2](https://cran.r-project.org/web/packages/rdrop2/) package. You can create access keys (tokens) which can allow your Shiny app to read and write files from and to your Dropbox folder.
+Step 2: Here you will need a persistant data storage solution. One possibilty is to host your ledger in Dropbox with the help of the [rdrop2](https://cran.r-project.org/web/packages/rdrop2/) package. You can create access keys (tokens) which can allow your Shiny app to read and write files from and to your Dropbox folder.\
+Step 3: You will need to modify the code a bit. You will need the special funcions for reading encrypted ledgers from Dropbox _drop_read.aes_ by providing the ledger file, encryption key and Dropbox access token. Once you have done changes to the ledger, you create file in the virtual environemt with _write.aes_ function and you upload it to Dropbox with _drop_upload_ by providing name and Dropbox token.\
+NB: I do not recommend this method.
