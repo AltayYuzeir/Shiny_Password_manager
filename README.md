@@ -2,7 +2,8 @@
 
 # YuCrypt - Password manager
 This is a simple and lightweight Password manager built with R and Shiny.\
-The main goal of this app is to enable seemless interaction with your encrypted password database.
+The main goal of this app is to enable seemless interaction with your encrypted password database.\
+I have worked on this project in my free time to help me out improve my R and Shiny skills and knowledge.
 
 # Setup
 Option 1: Hosted locally (Recommended)
