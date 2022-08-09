@@ -19,3 +19,4 @@ Option 2: Hosted online, e.g. shinyapps.io
 1. To the creators of the [EncryptDF](https://github.com/UW-L-S-Academic-Information-Management/EncryptDF) package. I have modified their code a bit for our purposes. Thanks to them we have the backbone of the our app - the encrypted password database.
 2. To the creators of the [rclipboard](https://github.com/sbihorel/rclipboard/) package. It was really useful for this project with the random username and passwords.
 3. To the creator(s) of the [Words](mailto:condwanaland@gmail.com) package. It was especially useful for our random username generator. Nice resource to have.
+4. To [Dean Attali](https://deanattali.com/) for the packages _**shinyjs**_ and _**shinyalert**_ which we have used here. But Mr. Attali is doing so much more and creating amazing tools for us to use in Shiny. Feel free to check him out.
