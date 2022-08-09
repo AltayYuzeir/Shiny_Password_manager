@@ -15,6 +15,7 @@ source(file = "functions.R")
 source(file = "user_manual.R")
 
 rm(list = ls())
+
 # Add your destination folder for permanent storage of your encrypted ledger
 path = "C:/Users/Altay/Password_Manager/"
 word_bank = words::words
@@ -680,7 +681,6 @@ server = function(input, output, session) {
         mode = input$masterPasswordOptions
         if(mode == "Keep") return()
         else updateTextInput(inputId = "masterPassword", value = "")
-        #shinyjs::hide("showhideMasterPasswordField")
       }
       else {
         shinyalert("Alert", "This Encrypted ledger does not exist !", type = "error")
@@ -711,8 +711,7 @@ server = function(input, output, session) {
         database = read.aes(paste0(path,"GybK8jhdwzMtFPwSErC1.ycpt"), key = key)
         if(ncol(database) != 3) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
         else {
-          #for_edit = subset(database, Website == input$website )
-          
+
           if (nrow(for_edit) == 0) {
             shinyalert("No matches", "This record does not exist !", type = "info")
             shinyjs::hide("confirmEditRecordButton")
@@ -739,7 +738,6 @@ server = function(input, output, session) {
         mode = input$masterPasswordOptions
         if(mode == "Keep") return()
         else updateTextInput(inputId = "masterPassword", value = "")
-        #shinyjs::hide("showhideMasterPasswordField")
       }
       else {
         shinyalert("Alert", "This Encrypted ledger does not exist !", type = "error")
@@ -791,7 +789,6 @@ server = function(input, output, session) {
           mode = input$masterPasswordOptions
           if(mode == "Keep") return()
           else updateTextInput(inputId = "masterPassword", value = "")
-          #shinyjs::hide("showhideMasterPasswordField")
         }
       } else shinyalert("Alert", "This Encrypted ledger does not exist !", type = "error")
       
@@ -989,8 +986,7 @@ server = function(input, output, session) {
     shinyjs::show(id = "randomUsername")
     shinyjs::show(id = "copyRandomUsername2clipboard")
     shinyjs::show(id = "turnOffUsernameGenerator")
-    #shinyjs::show(id = "appendNum")
-    
+
     
     output$randomUsername = renderText({
       username = paste0(username,input$appendNum)
@@ -1019,13 +1015,10 @@ server = function(input, output, session) {
   #### Turn off Password Generator ----
   observeEvent(input$turnOffUsername,{
     
-    #updateTextInput(inputId = "appendNum", value = "")
-    
     shinyjs::hide(id = "randomUsername")
     shinyjs::hide(id = "copyRandomUsername2clipboard")
     shinyjs::hide(id = "turnOffUsernameGenerator")
-    #shinyjs::hide(id = "appendNum")
-    
+
     
   })
   
