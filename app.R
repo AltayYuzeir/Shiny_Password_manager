@@ -15,7 +15,8 @@ source(file = "functions.R")
 source(file = "user_manual.R")
 
 rm(list = ls())
-
+# Add your destination folder for permanent storage of your encrypted ledger
+path = "C:/Users/Altay/Password_Manager/"
 word_bank = words::words
 
 #### UI ----
