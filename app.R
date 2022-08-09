@@ -127,7 +127,7 @@ ui = fluidPage(
                                             step = 1)),
       tags$style(type="text/css", "#passwordLength {color:white;}"),
       
-
+      
       div(id = "randomPasswordType" ,radioButtons(inputId = "randomPasswordType", "Select password type:",
                                                   choices = c("Letters & Numbers" = "noSpecials",
                                                               "Letts & Nums + Specials" = "Specials"),
@@ -387,13 +387,11 @@ ui = fluidPage(
         )
       ),
       hr(),
-      div(style="text-align:center; color: #80b3ff", tags$b("Copyright"),icon("copyright"),
-          tags$b("2022-2022"),br(), tags$b("Altay Yuzeir")),
-      #br(),
-      # div(style="text-align:center; color: #6666ff",
-      #     tags$b("Developed by Altay Yuzeir, 2022 \nAll rights reserved."),
-      #    ),
-      # br(),
+     
+      div(style="text-align:center; color: #80b3ff",
+          tags$b("Originally developed by Altay Yuzeir, 2022 in Bonn, Germany"),
+         ),
+      br(),
       #hr(),
       shinyjs::useShinyjs()
       
@@ -711,7 +709,7 @@ server = function(input, output, session) {
         database = read.aes(paste0(path,"GybK8jhdwzMtFPwSErC1.ycpt"), key = key)
         if(ncol(database) != 3) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
         else {
-
+          
           if (nrow(for_edit) == 0) {
             shinyalert("No matches", "This record does not exist !", type = "info")
             shinyjs::hide("confirmEditRecordButton")
@@ -804,42 +802,42 @@ server = function(input, output, session) {
       
     ) shinyalert("Alert", "Please fill out all fields: \n Master Password !", type = "error")
     else{
-    passphrase <- charToRaw(MasterPassword)
-    key <- openssl::sha256(passphrase)
-    
-    database = read.aes(paste0(path,"GybK8jhdwzMtFPwSErC1.ycpt"), key = key)
-    if(ncol(database) != 3) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
-    else {
-      logins = subset(database, Website == input$searchWebsiteField)
-      logins = logins$Login
+      passphrase <- charToRaw(MasterPassword)
+      key <- openssl::sha256(passphrase)
       
-      output$searchBarLogin = renderUI({
-        div(id = "searchBarLoginStyle",
-            selectInput(inputId = "searchLoginField",
-                        label = NULL,
-                        choices = logins,
-                        selected = logins[1],
-                        selectize = T 
-            )
-        )
+      database = read.aes(paste0(path,"GybK8jhdwzMtFPwSErC1.ycpt"), key = key)
+      if(ncol(database) != 3) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
+      else {
+        logins = subset(database, Website == input$searchWebsiteField)
+        logins = logins$Login
         
-      })
-      
-      output$loadRecordButton = renderUI({
-        actionButton("loadRecord", "Load Record", icon = icon("upload"),
-                     style = "background:#df9fbf;color:#404040;margin-top:5px;")
-      })
-      
-      output$closeSearchButton = renderUI({
-        actionButton("closeSearch", "Close Search", icon = icon("circle-xmark"),
-                     style = "background:#df9fbf;color:#404040;margin-top:5px;")
-      })
-      
-      mode = input$masterPasswordOptions
-      if(mode == "Keep") return()
-      else updateTextInput(inputId = "masterPassword", value = "")
-      #shinyjs::hide("showhideMasterPasswordField")
-    }
+        output$searchBarLogin = renderUI({
+          div(id = "searchBarLoginStyle",
+              selectInput(inputId = "searchLoginField",
+                          label = NULL,
+                          choices = logins,
+                          selected = logins[1],
+                          selectize = T 
+              )
+          )
+          
+        })
+        
+        output$loadRecordButton = renderUI({
+          actionButton("loadRecord", "Load Record", icon = icon("upload"),
+                       style = "background:#df9fbf;color:#404040;margin-top:5px;")
+        })
+        
+        output$closeSearchButton = renderUI({
+          actionButton("closeSearch", "Close Search", icon = icon("circle-xmark"),
+                       style = "background:#df9fbf;color:#404040;margin-top:5px;")
+        })
+        
+        mode = input$masterPasswordOptions
+        if(mode == "Keep") return()
+        else updateTextInput(inputId = "masterPassword", value = "")
+        #shinyjs::hide("showhideMasterPasswordField")
+      }
     }
   })
   
@@ -851,25 +849,25 @@ server = function(input, output, session) {
       
     ) shinyalert("Alert", "Please fill out all fields: \n Master Password !", type = "error")
     else{
-    updateTextInput(inputId = "website",
-                    value = input$searchWebsiteField)
-    updateTextInput(inputId = "login",
-                    value = input$searchLoginField)
-    
-    MasterPassword = input$masterPassword
-    
-    passphrase <- charToRaw(MasterPassword)
-    key <- openssl::sha256(passphrase)
-    
-    database = read.aes(paste0(path,"GybK8jhdwzMtFPwSErC1.ycpt"), key = key)
-    if(ncol(database) != 3) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
-    else {
-      password = subset(database, Website == input$searchWebsiteField & 
-                          Login == input$searchLoginField)
-      password = password$Password
-      updateTextInput(inputId = "password",
-                      value = password)
-    }}
+      updateTextInput(inputId = "website",
+                      value = input$searchWebsiteField)
+      updateTextInput(inputId = "login",
+                      value = input$searchLoginField)
+      
+      MasterPassword = input$masterPassword
+      
+      passphrase <- charToRaw(MasterPassword)
+      key <- openssl::sha256(passphrase)
+      
+      database = read.aes(paste0(path,"GybK8jhdwzMtFPwSErC1.ycpt"), key = key)
+      if(ncol(database) != 3) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
+      else {
+        password = subset(database, Website == input$searchWebsiteField & 
+                            Login == input$searchLoginField)
+        password = password$Password
+        updateTextInput(inputId = "password",
+                        value = password)
+      }}
   })
   
   
@@ -986,7 +984,7 @@ server = function(input, output, session) {
     shinyjs::show(id = "randomUsername")
     shinyjs::show(id = "copyRandomUsername2clipboard")
     shinyjs::show(id = "turnOffUsernameGenerator")
-
+    
     
     output$randomUsername = renderText({
       username = paste0(username,input$appendNum)
@@ -1018,7 +1016,7 @@ server = function(input, output, session) {
     shinyjs::hide(id = "randomUsername")
     shinyjs::hide(id = "copyRandomUsername2clipboard")
     shinyjs::hide(id = "turnOffUsernameGenerator")
-
+    
     
   })
   
@@ -1036,6 +1034,8 @@ server = function(input, output, session) {
     C = sample(C, length(C))
     #ascii <- rawToChar(as.raw(0:127), multiple=TRUE)
     #D <-  ascii[grepl('[[:punct:]]', ascii)][c(1:23,25:32)]
+    
+    # Some special characters are not used as they are hard to read
     D = c("!","#","$","%","&","*","+","-","=","?","@","~","<",">","|",":",";")
     D = sample(D, length(D))
     
