@@ -1,4 +1,4 @@
-<img src="YuCrypt-logo.png" align="right" width=120 height=139 alt="" />
+<img src="www/YuCrypt-logo.png" align="right" width=120 height=139 alt="" />
 
 # YuCrypt - Password Manager app
 This is a simple and lightweight Password manager built with R and Shiny.\
@@ -10,7 +10,7 @@ I could not find a usable password manager written in R and Shiny, so I decided 
 
 # Setup
 Option 1: Hosted locally (Recommended)
-1. Download all provided files and create a folder "www" where the app.R file is located. Put inside "www" the logo.png for proper visualization.
+1. Download all provided files.
 2. Download the [shinyShortcut](https://cran.r-project.org/web/packages/shinyShortcut/README.html) package and follow the instructions. You will get a standalone .VBS executable file which can be executed without R or RStudio being open.
 3. Read the provided in-app user manual at least once :)
 
