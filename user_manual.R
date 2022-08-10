@@ -7,7 +7,7 @@ user_manual =  HTML(
       span("User manual:", style = style)
     )),
     tags$em(
-      span("1. Input Your Master Password to access the encrypted database. Master Password is needed for every operation !", style = style)
+      span("1. Input Your Master Password to access the encrypted database. Master Password is needed for every operation!", style = style)
     ),
     tags$em(
       span("2. You can Keep the Master Passward continuously, or Clear it after every operation.", style = style)
