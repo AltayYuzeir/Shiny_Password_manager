@@ -388,9 +388,8 @@ ui = fluidPage(
       ),
       hr(),
      
-      div(style="text-align:center; color: #80b3ff",
-          tags$b("Originally developed by Altay Yuzeir, 2022 in Bonn, Germany"),
-         ),
+      div(style="text-align:center; color: #80b3ff", tags$b("Copyright"),icon("copyright"),
+          tags$b("2022-2022"),br(), tags$b("Altay Yuzeir")),
       br(),
       #hr(),
       shinyjs::useShinyjs()
