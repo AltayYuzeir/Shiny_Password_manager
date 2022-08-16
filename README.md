@@ -10,13 +10,13 @@ I could not find a usable password manager written in R and Shiny, so I decided 
 <img src="user_interface.png" align="center" width=100% height=400 alt="" />
 
 # Setup
-Option 1: Hosted locally (Recommended)
+Option 1: Hosted locally (Strongly Recommended !)
 1. Download all provided files.
 2. Download and install the [shinyShortcut](https://cran.r-project.org/web/packages/shinyShortcut/README.html) package and follow the instructions. 
 3. Run the _shinyShortcut_ command. You will get a standalone .VBS executable file which can be executed without R or RStudio being open.
 3. Read the provided in-app user manual at least once :)
 
-Option 2: Hosted online, e.g. shinyapps.io
+Option 2: Hosted online, e.g. shinyapps.io (NOT Recommended !)
 1. Download all files and create an account in shinyapps.io and follow their instructions furter.
 2. Here you will need a persistant data storage solution. One possibilty is to host your database in Dropbox with the help of the [rdrop2](https://cran.r-project.org/web/packages/rdrop2/) package. You can create access keys (tokens) which can allow your Shiny app to read and write files from and to your Dropbox folder.
 3. You will need to modify the code a bit. You will need the special functions for reading the encrypted database from Dropbox _drop_read.aes_ by providing the database filename, encryption key and Dropbox access token. Once you have done changes to the database, you create file in the virtual environment with _write.aes_ function and you upload it to Dropbox with _drop_upload_ by providing name and Dropbox token.
