@@ -401,7 +401,7 @@ ui = fluidPage(
 #### Server ----
 server = function(input, output, session) {
   
-  shinytitle::change_window_title(session, title = "Password Manager app")
+  shinytitle::change_window_title(session, title = "YuCrypt")
   
   
   #### Show-Hide Master Password ----
