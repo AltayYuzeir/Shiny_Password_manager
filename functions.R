@@ -24,12 +24,12 @@ read.aes = function (filename, key) # from EncryptDF package from GitHub
 }
 
 
-write.aes = function (df, filename, key) # modified from EncryptDF package from GitHub
+write.aes = function (data, filename, key) # modified from EncryptDF package from GitHub
 {
   require(digest)
-  zz <- textConnection("out", "w", local = T)
-  write.csv(df, zz, row.names = F)
-  close(zz)
+  tmp <- textConnection("out", "w", local = T)
+  write.csv(data, tmp, row.names = F)
+  close(tmp)
   out <- paste(out, collapse = "\n")
   raw <- charToRaw(out)
   raw <- c(raw, as.raw(rep(0, 16 - length(raw)%%16)))
@@ -38,11 +38,11 @@ write.aes = function (df, filename, key) # modified from EncryptDF package from 
   writeBin(aes$encrypt(raw), filename)
 }
 
-is_empty_input = function(x){
+is_empty_input = function(data){
   require(stringr)
-  if(x == "" |
-     gsub(" ", "", x) == "" |
-     stringr::str_replace_all(x,
+  if(data == "" |
+     gsub(" ", "", data) == "" |
+     stringr::str_replace_all(data,
                               c(
                                 "\u000A" = "",
                                 "\u0009" = "",
