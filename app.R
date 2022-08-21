@@ -202,7 +202,7 @@ ui = fluidPage(
                        style = "background:#ccccff;color:#404040;")
         )
       ),
-      tags$style(type='text/css', "input#showhideMasterPasswordField { margin-bottom: -20px; margin-left: -50px; margin-right: 0px;width: 390px}"),
+      tags$style(type='text/css', "input#showhideMasterPasswordField {font-family:'Lucida Console'; margin-bottom: -20px; margin-left: -50px; margin-right: 0px;width: 390px}"),
       tags$style(type='text/css', "button#hideMasterPass {  margin-left: -70px; }"),
       
       hr(),
@@ -254,7 +254,7 @@ ui = fluidPage(
           uiOutput("password2clipboard")
         )
       ),
-      tags$style(type='text/css', "input#showhidePasswordField { margin-bottom: -20px; margin-left: -50px; width: 310px}"),
+      tags$style(type='text/css', "input#showhidePasswordField { font-family:'Lucida Console';margin-bottom: -20px; margin-left: -50px; width: 310px}"),
       tags$style(type='text/css', "button#hidePass { margin-left: -10px;}"),
       
       #tags$style(type='text/css', "#password2clipboard { padding-left: 0px; }"),
