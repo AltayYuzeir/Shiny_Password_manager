@@ -2,7 +2,7 @@ library(shiny)
 #library(rclipboard) # for 'Copy to Clipboard' buttons
 library(shinyWidgets) # for setting background color of UI elements
 #library(shinytitle)
-library(shinyalert) # fancy alerts for sucsess and failure
+library(shinyalert) # fancy alerts for success and failure
 #library(shinyjs) # to hide and show UI elements 
 #library(openssl) # to create our encryption key
 #library(rdrop2)
@@ -28,8 +28,8 @@ ui = fluidPage(
   
   rclipboard::rclipboardSetup(),
   
-  titlePanel(div(img(src = "YuCrypt-logo.png", height = 100, width = 100),
-                 span("YuCrypt - Password Manager app", style = "color:white;"))),
+  titlePanel(div(img(src = "YuPass-logo.png", height = 100, width = 100),
+                 span("YuPass - Password Manager app", style = "color:white;"))),
   
   title = shinytitle::use_shiny_title(),
   
@@ -387,7 +387,7 @@ ui = fluidPage(
         )
       ),
       hr(),
-     
+      
       div(style="text-align:center; color: #80b3ff", tags$b("Copyright"),icon("copyright"),
           tags$b("2022-2022"),br(), tags$b("Altay Yuzeir")),
       br(),
@@ -401,7 +401,7 @@ ui = fluidPage(
 #### Server ----
 server = function(input, output, session) {
   
-  shinytitle::change_window_title(session, title = "YuCrypt")
+  shinytitle::change_window_title(session, title = "YuPass")
   
   
   #### Show-Hide Master Password ----
