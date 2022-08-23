@@ -208,7 +208,7 @@ ui = fluidPage(
       hr(),
       div(id = "websiteLabel",textInput(inputId = "website",
                                         label = "Profile (website/credit card/other accounts):",
-                                        placeholder = "example.com"
+                                        placeholder = "bubble.com"
                                         
       )),
       tags$style(type="text/css", "#websiteLabel {color:white;}"),
@@ -658,8 +658,6 @@ server = function(input, output, session) {
             shinyjs::hide("confirmEditRecordButton")
             shinyjs::hide("cancelEditRecordButton")
             
-            rm(for_edit)
-            
           }
           else {
             output$confirmEditRecord = renderUI({
@@ -721,7 +719,9 @@ server = function(input, output, session) {
             for_edit$Password = input$password
             id <- as.numeric(rownames(for_edit))
             database[id,] = for_edit
-            rm(for_edit)
+            for_edit$Website <<- "I"
+            for_edit$Login <<- "love"
+            for_edit$Password <<- "YuPass !"
             write.aes(database, paste0(path,"GybK8jhdwzMtFPwSErC1.ycpt"),key = key)
             
             shinyalert("Success", "You have edited this record !", type = "success")
