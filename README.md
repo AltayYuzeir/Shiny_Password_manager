@@ -12,9 +12,10 @@ I could not find a usable password manager written in R and Shiny, so I decided 
 # Setup
 Option 1: Hosted locally (Strongly Recommended !)
 1. Download all provided files.
-2. Download and install the [shinyShortcut](https://cran.r-project.org/web/packages/shinyShortcut/README.html) package and follow the instructions. 
-3. Run the _shinyShortcut_ command. You will get a standalone .VBS executable file which can be executed without R or RStudio being open.
-3. Read the provided in-app user manual at least once :)
+2. In the _app.R_ file select the location where your encrypted password database will be stored.
+3. Download and install the [shinyShortcut](https://cran.r-project.org/web/packages/shinyShortcut/README.html) package and follow the instructions. 
+4. Run the _shinyShortcut_ command. You will get a standalone .VBS executable file which can be executed without R or RStudio being open.
+5. Read the provided in-app user manual at least once :)
 
 Option 2: Hosted online, e.g. shinyapps.io (NOT Recommended !)
 1. Download all files and create an account in shinyapps.io and follow their instructions furter.
