@@ -14,7 +14,6 @@ library(shinyalert) # fancy alerts for success and failure
 source(file = "functions.R")
 source(file = "user_manual.R")
 
-rm(list = ls())
 
 # Add your destination folder for permanent storage of your encrypted ledger
 path = "C:/Users/Altay/Password_Manager/"
@@ -85,7 +84,7 @@ ui = fluidPage(
       ),
       column(
         width = 6,
-        div(id = "appendNumLabel", textInput("appendNum", "Append your number")),
+        div(id = "appendNumLabel", textInput("appendNum", "Append your number", placeholder = "420")),
         tags$style(type="text/css", "#appendNumLabel {color:white;}")
         
       )
@@ -168,7 +167,8 @@ ui = fluidPage(
       fluidRow(column(width = 9,
                       div(id = "masterPasswordLabel",passwordInput(inputId = "masterPassword",
                                                                    label = "Master Password:",
-                                                                   placeholder = "EXample_M4ST3R!!!_p@ssw0rd;)",
+                                                                   #placeholder = "EXample_M4ST3R!!!_p@ssw0rd;)",
+                                                                   placeholder = "3a2TR_3GG!!!_12land2;)",
                                                                    width = "95%"
                       ))),
                tags$style(type="text/css", "#masterPasswordLabel {color:white;}"),
@@ -215,14 +215,14 @@ ui = fluidPage(
       
       div(id = "loginLabel",textInput(inputId = "login",
                                       label = "Login (username/email/phone number):",
-                                      placeholder = "use_username_generator_:)"
+                                      placeholder = "SlowGenomics1337"
                                       
       )),
       tags$style(type="text/css", "#loginLabel {color:white;}"),
       
       div(id ="passwordLabel",passwordInput(inputId = "password",
                                             label = "Password:",
-                                            placeholder = "use_password_generator_:)",
+                                            placeholder = "D1r7D3v1LChub8yB3rRy",
                                             width = "60%"
                                             
       )),
