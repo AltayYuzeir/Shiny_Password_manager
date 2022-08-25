@@ -84,7 +84,7 @@ ui = fluidPage(
       ),
       column(
         width = 6,
-        div(id = "appendNumLabel", textInput("appendNum", "Append your number", placeholder = "420")),
+        div(id = "appendNumLabel", textInput("appendNum", "Append your number", placeholder = "0049")),
         tags$style(type="text/css", "#appendNumLabel {color:white;}")
         
       )
