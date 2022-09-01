@@ -15,7 +15,7 @@ source(file = "functions.R")
 source(file = "user_manual.R")
 
 
-# Add your destination folder for permanent storage of your encrypted ledger
+# Add your destination folder for permanent storage of your encrypted database
 path = "C:/Users/Altay/Password_Manager/"
 word_bank = words::words
 
@@ -479,7 +479,7 @@ server = function(input, output, session) {
           
           write.aes(database, paste0(path,"GybK8jhdwzMtFPwSErC1.ycpt"), key = key)
           
-          shinyalert("Success", "Record successfully added to the ledger !", type = "success")
+          shinyalert("Success", "Record successfully added to the database !", type = "success")
         }
         
       } else {
@@ -494,7 +494,7 @@ server = function(input, output, session) {
         database = rbind(database, record)
         
         write.aes(database, paste0(path,"GybK8jhdwzMtFPwSErC1.ycpt"), key = key)
-        shinyalert("Success", "You have created new \n Encrypted password ledger !", type = "success")
+        shinyalert("Success", "You have created new \n Encrypted password database !", type = "success")
         
       }
       
@@ -562,7 +562,7 @@ server = function(input, output, session) {
                      #shinyjs::hide("showhideMasterPasswordField")
                    }
                    else {
-                     shinyalert("Alert", "This Encrypted ledger does not exist !", type = "error")
+                     shinyalert("Alert", "This Encrypted database does not exist !", type = "error")
                      shinyjs::hide("confirmDeleteRecordButton")
                      shinyjs::hide("cancelDeleteRecordButton")
                      
@@ -618,7 +618,7 @@ server = function(input, output, session) {
         #shinyjs::hide("showhideMasterPasswordField")
       }
       else {
-        shinyalert("Alert", "This Encrypted ledger does not exist !", type = "error")
+        shinyalert("Alert", "This Encrypted database does not exist !", type = "error")
         shinyjs::hide("confirmDeleteRecordButton")
         shinyjs::hide("cancelDeleteRecordButton")
         
@@ -678,7 +678,7 @@ server = function(input, output, session) {
         else updateTextInput(inputId = "masterPassword", value = "")
       }
       else {
-        shinyalert("Alert", "This Encrypted ledger does not exist !", type = "error")
+        shinyalert("Alert", "This Encrypted database does not exist !", type = "error")
         shinyjs::hide("confirmEditRecordButton")
         shinyjs::hide("cancelEditRecordButton")
       }
@@ -737,7 +737,7 @@ server = function(input, output, session) {
         else updateTextInput(inputId = "masterPassword", value = "")
       }
       else {
-        shinyalert("Alert", "This Encrypted ledger does not exist !", type = "error")
+        shinyalert("Alert", "This Encrypted database does not exist !", type = "error")
         shinyjs::hide("confirmEditRecordButton")
         shinyjs::hide("cancelEditRecordButton")
         
@@ -766,8 +766,8 @@ server = function(input, output, session) {
         if(ncol(database) != 3) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
         else {
           websites = database$Website
-          #websites = websites[2:length(websites)]
-          websites[1] = "You can delete and type :)"
+          websites = websites[2:length(websites)]
+          #websites[1] = "You can delete and type :)"
           
           output$searchBarWebsite = renderUI({
             
@@ -787,7 +787,7 @@ server = function(input, output, session) {
           if(mode == "Keep") return()
           else updateTextInput(inputId = "masterPassword", value = "")
         }
-      } else shinyalert("Alert", "This Encrypted ledger does not exist !", type = "error")
+      } else shinyalert("Alert", "This Encrypted database does not exist !", type = "error")
       
     }
   })
