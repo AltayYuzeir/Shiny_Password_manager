@@ -28,7 +28,7 @@ Option 2: Hosted online, e.g. shinyapps.io (NOT Recommended !)
 3. Encrypeted database will be created together with the first Record you provide.
 4. You can Edit a Record by providing Website and Login. You select Record to be edited and press Edit. You can change Website, Login and Password and then you need to Confirm the Edit procedure.
 5. You can Delete a Record by providing Website and Login. You need to confirm the Delete procedure.
-6. You can Search for Website in the Database.
+6. You can Search for Website in the Database. You can Delete and Type inside the Search field.
 7. You can Search for Logins of the chosen Website.
 8. You can Load the Record to visualize the Password.
 9. You can Close the Search section afterwards.
