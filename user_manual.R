@@ -22,7 +22,7 @@ user_manual =  HTML(
       span("5. You can Delete a Record by providing Website and Login. You need to confirm the Delete procedure.", style = style)
     ),
     tags$em(
-      span("6. You can Search for Website in the Database.", style = style)
+      span("6. You can Search for Website in the Database. You can Delete and Type inside the Search field.", style = style)
     ),
     tags$em(
       span("7. You can Search for Logins of the chosen Website.", style = style)
