@@ -20,6 +20,7 @@ path = Sys.getenv("USERPROFILE")
 path = gsub( "\\\\", "/", path)
 path = paste0(path, "/YuPass_Password_Manager/")
 word_bank = words::words
+if(!dir.exists(path)) dir.create(path)
 
 #### UI ----
 ui = fluidPage(   
