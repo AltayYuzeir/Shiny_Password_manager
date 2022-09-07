@@ -16,7 +16,9 @@ source(file = "user_manual.R")
 
 
 # Add your destination folder for permanent storage of your encrypted database
-path = "C:/Users/Altay/Password_Manager/"
+path = Sys.getenv("USERPROFILE")
+path = gsub( "\\\\", "/", path)
+path = paste0(path, "/YuPass_Password_Manager/")
 word_bank = words::words
 
 #### UI ----
@@ -465,19 +467,19 @@ server = function(input, output, session) {
     ) shinyalert("Alert", "Please fill out all fields: \n Master Password, Website, Login and Password !", type = "error")
     else{
       
-      if(file.exists(paste0(path,"GybK8jhdwzMtFPwSErC1.ycpt"))){
+      if(file.exists(paste0(path,"Database.ycpt"))){
         
         passphrase <- charToRaw(MasterPassword)
         key <- openssl::sha256(passphrase)
         
-        database = read.aes(paste0(path,"GybK8jhdwzMtFPwSErC1.ycpt"), key = key)
+        database = read.aes(paste0(path,"Database.ycpt"), key = key)
         if(ncol(database) != 3) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
         else {
           
           record = c(Website, Login, Password)
           database = rbind(database, record)
           
-          write.aes(database, paste0(path,"GybK8jhdwzMtFPwSErC1.ycpt"), key = key)
+          write.aes(database, paste0(path,"Database.ycpt"), key = key)
           
           shinyalert("Success", "Record successfully added to the database !", type = "success")
         }
@@ -493,7 +495,7 @@ server = function(input, output, session) {
         record = c(Website, Login, Password)
         database = rbind(database, record)
         
-        write.aes(database, paste0(path,"GybK8jhdwzMtFPwSErC1.ycpt"), key = key)
+        write.aes(database, paste0(path,"Database.ycpt"), key = key)
         shinyalert("Success", "You have created new \n Encrypted password database !", type = "success")
         
       }
@@ -525,8 +527,8 @@ server = function(input, output, session) {
                    
                    passphrase <- charToRaw(MasterPassword)
                    key <- openssl::sha256(passphrase)
-                   if(file.exists(paste0(path,"GybK8jhdwzMtFPwSErC1.ycpt"))){
-                     database = read.aes(paste0(path,"GybK8jhdwzMtFPwSErC1.ycpt"), key = key)
+                   if(file.exists(paste0(path,"Database.ycpt"))){
+                     database = read.aes(paste0(path,"Database.ycpt"), key = key)
                      if(ncol(database) != 3) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
                      else {
                        
@@ -587,8 +589,8 @@ server = function(input, output, session) {
       
       passphrase <- charToRaw(MasterPassword)
       key <- openssl::sha256(passphrase)
-      if(file.exists(paste0(path,"GybK8jhdwzMtFPwSErC1.ycpt"))){
-        database = read.aes(paste0(path,"GybK8jhdwzMtFPwSErC1.ycpt"), key = key)
+      if(file.exists(paste0(path,"Database.ycpt"))){
+        database = read.aes(paste0(path,"Database.ycpt"), key = key)
         if(ncol(database) != 3) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
         else {
           
@@ -602,7 +604,7 @@ server = function(input, output, session) {
           }
           else {
             id <- as.numeric(rownames(for_deletion))
-            write.aes(database[-id,], paste0(path,"GybK8jhdwzMtFPwSErC1.ycpt"), key = key)
+            write.aes(database[-id,], paste0(path,"Database.ycpt"), key = key)
             
             shinyalert("Success", "You have deleted this record !", type = "success")
             shinyjs::hide("confirmDeleteRecordButton")
@@ -647,8 +649,8 @@ server = function(input, output, session) {
     else{
       passphrase <- charToRaw(MasterPassword)
       key <- openssl::sha256(passphrase)
-      if(file.exists(paste0(path,"GybK8jhdwzMtFPwSErC1.ycpt"))){
-        database = read.aes(paste0(path,"GybK8jhdwzMtFPwSErC1.ycpt"), key = key)
+      if(file.exists(paste0(path,"Database.ycpt"))){
+        database = read.aes(paste0(path,"Database.ycpt"), key = key)
         if(ncol(database) != 3) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
         else {
           for_edit <<- subset(database, Website == input$website & Login == input$login)
@@ -702,8 +704,8 @@ server = function(input, output, session) {
     else{
       passphrase <- charToRaw(MasterPassword)
       key <- openssl::sha256(passphrase)
-      if(file.exists(paste0(path,"GybK8jhdwzMtFPwSErC1.ycpt"))){
-        database = read.aes(paste0(path,"GybK8jhdwzMtFPwSErC1.ycpt"), key = key)
+      if(file.exists(paste0(path,"Database.ycpt"))){
+        database = read.aes(paste0(path,"Database.ycpt"), key = key)
         if(ncol(database) != 3) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
         else {
           
@@ -722,7 +724,7 @@ server = function(input, output, session) {
             for_edit$Website <<- "I"
             for_edit$Login <<- "love"
             for_edit$Password <<- "YuPass !"
-            write.aes(database, paste0(path,"GybK8jhdwzMtFPwSErC1.ycpt"),key = key)
+            write.aes(database, paste0(path,"Database.ycpt"),key = key)
             
             shinyalert("Success", "You have edited this record !", type = "success")
             shinyjs::hide("confirmEditRecordButton")
@@ -761,8 +763,8 @@ server = function(input, output, session) {
     else{
       passphrase <- charToRaw(MasterPassword)
       key <- openssl::sha256(passphrase)
-      if(file.exists(paste0(path,"GybK8jhdwzMtFPwSErC1.ycpt"))){
-        database = read.aes(paste0(path,"GybK8jhdwzMtFPwSErC1.ycpt"), key = key)
+      if(file.exists(paste0(path,"Database.ycpt"))){
+        database = read.aes(paste0(path,"Database.ycpt"), key = key)
         if(ncol(database) != 3) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
         else {
           websites = database$Website
@@ -804,7 +806,7 @@ server = function(input, output, session) {
       passphrase <- charToRaw(MasterPassword)
       key <- openssl::sha256(passphrase)
       
-      database = read.aes(paste0(path,"GybK8jhdwzMtFPwSErC1.ycpt"), key = key)
+      database = read.aes(paste0(path,"Database.ycpt"), key = key)
       if(ncol(database) != 3) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
       else {
         logins = subset(database, Website == input$searchWebsiteField)
@@ -858,7 +860,7 @@ server = function(input, output, session) {
       passphrase <- charToRaw(MasterPassword)
       key <- openssl::sha256(passphrase)
       
-      database = read.aes(paste0(path,"GybK8jhdwzMtFPwSErC1.ycpt"), key = key)
+      database = read.aes(paste0(path,"Database.ycpt"), key = key)
       if(ncol(database) != 3) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
       else {
         password = subset(database, Website == input$searchWebsiteField & 
@@ -904,7 +906,7 @@ server = function(input, output, session) {
         passphrase <- charToRaw(MasterPassword)
         key <- openssl::sha256(passphrase)
         
-        database = read.aes(paste0(path,"GybK8jhdwzMtFPwSErC1.ycpt"), key = key)
+        database = read.aes(paste0(path,"Database.ycpt"), key = key)
         if(ncol(database) != 3) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
         else write.aes(database, file, key = key)
       }
@@ -924,11 +926,11 @@ server = function(input, output, session) {
       passphrase <- charToRaw(MasterPassword)
       key <- openssl::sha256(passphrase)
       
-      database = read.aes(paste0(path,"GybK8jhdwzMtFPwSErC1.ycpt"), key = key)
+      database = read.aes(paste0(path,"Database.ycpt"), key = key)
       if(ncol(database) != 3) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
       else {
         database = unique(database)
-        write.aes(database, paste0(path,"GybK8jhdwzMtFPwSErC1.ycpt"), key=key)
+        write.aes(database, paste0(path,"Database.ycpt"), key=key)
         
         shinyalert("Success", "You have successfully removed all duplicates !", type = "success")
       }
