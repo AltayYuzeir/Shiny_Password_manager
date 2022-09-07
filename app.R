@@ -87,7 +87,7 @@ ui = fluidPage(
       ),
       column(
         width = 6,
-        div(id = "appendNumLabel", textInput("appendNum", "Append your number", placeholder = "0049")),
+        div(id = "appendNumLabel", shinyjs::hidden(textInput("appendNum", "Append your number", placeholder = "0049"))),
         tags$style(type="text/css", "#appendNumLabel {color:white;}")
         
       )
@@ -1029,6 +1029,7 @@ server = function(input, output, session) {
     shinyjs::show(id = "randomUsername")
     shinyjs::show(id = "copyRandomUsername2clipboard")
     shinyjs::show(id = "turnOffUsernameGenerator")
+    shinyjs::show(id = "appendNum")
     
     updateTextInput(inputId = "randomUsername",
                     value = paste0(username,input$appendNum))
@@ -1062,13 +1063,13 @@ server = function(input, output, session) {
   })
   
   
-  #### Turn off Password Generator ----
+  #### Turn off Username Generator ----
   observeEvent(input$turnOffUsername,{
-    
+    updateTextInput(inputId = "randomUsername", value = "")
     shinyjs::hide(id = "randomUsername")
+    shinyjs::hide(id = "appendNum")
     shinyjs::hide(id = "copyRandomUsername2clipboard")
     shinyjs::hide(id = "turnOffUsernameGenerator")
-    
     
   })
   
@@ -1142,6 +1143,7 @@ server = function(input, output, session) {
   
   #### Turn off Password Generator ----
   observeEvent(input$turnOffPassword,{
+    updateTextInput(inputId = "randomPassword", value = "")
     shinyjs::hide(id = "randomPassword")
     shinyjs::hide(id = "copyRandomPassword2clipboard")
     shinyjs::hide(id = "turnOffPasswordGenerator")
