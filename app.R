@@ -100,8 +100,8 @@ ui = fluidPage(
                    style = "background:#8cd9b3;color:#404040;"),
       
       p(),
-      div(id = "randomUsername", h5(textOutput('randomUsername'))),
-      tags$style(type="text/css", "#randomUsername {color:white;font-family:;}"), #'Lucida Console'
+      div(id = "randomUsernameLabel", shinyjs::hidden(textInput('randomUsername', label = NULL))),
+      tags$style(type="text/css", "#randomUsernameLabel {font-family:;}"), #'Lucida Console'
       
       fluidRow(
         column(
@@ -139,9 +139,9 @@ ui = fluidPage(
       
       actionButton("generatePassword", "Generate Password", 
                    icon = icon("qrcode"), style = "background:#99ccff;color:#404040;"), # #b3d9ff
-      
-      div(id = "randomPassword", h5(textOutput('randomPassword'))),
-      tags$style(type="text/css", "#randomPassword {color:white;font-family:'Lucida Console'; }"), #  font-style: italic; font-family: 'Yusei Magic';
+      p(),
+      div(id = "randomPasswordLabel", shinyjs::hidden(textInput('randomPassword', label = NULL))),
+      tags$style(type="text/css", "#randomPasswordLabel {font-family:'Lucida Console';}"), # font-family:'Lucida Console' # font-style: italic; font-family: 'Yusei Magic';
       #font-family:'Lucida Console';
       # font-family: 'Kirnberg';            
       
@@ -208,27 +208,55 @@ ui = fluidPage(
       tags$style(type='text/css', "button#hideMasterPass {  margin-left: -70px; }"),
       
       hr(),
+      
       div(id = "websiteLabel",textInput(inputId = "website",
                                         label = "Profile (website/credit card/other accounts):",
                                         placeholder = "bubble.com"
                                         
       )),
       tags$style(type="text/css", "#websiteLabel {color:white;}"),
-      
-      div(id = "loginLabel",textInput(inputId = "login",
-                                      label = "Login (username/email/phone number):",
-                                      placeholder = "SlowGenomics1337"
-                                      
-      )),
+      fluidRow(
+        
+        column(width = 5,
+               div(
+                 id = "loginLabel",
+                 textInput(
+                   inputId = "login",
+                   label = "Login (username/email/phone number):",
+                   placeholder = "SlowGenomics1337"
+                   
+                 )
+               )),
+        column(width = 2,
+               
+               div(
+                 id = "pasteLogin",
+                 actionButton(inputId = "pasteLogin", label = "Paste Username", 
+                              icon = icon("id-card-clip"), 
+                              style = "background:#8cd9b3;color:#404040;"))
+        )
+      ),
       tags$style(type="text/css", "#loginLabel {color:white;}"),
+      tags$style(type="text/css", "button#pasteLogin { margin-left: -30px; margin-top:25px;}"),
       
-      div(id ="passwordLabel",passwordInput(inputId = "password",
-                                            label = "Password:",
-                                            placeholder = "D1r7D3v1LChub8yB3rRy",
-                                            width = "60%"
-                                            
-      )),
+      fluidRow(
+        column(width = 7,
+               div(id ="passwordLabel",passwordInput(inputId = "password",
+                                                     label = "Password:",
+                                                     placeholder = "D1r7D3v1LChub8yB3rRy",
+                                                     width = "100%"
+                                                     
+               ))),
+        column(width = 2,
+               div(
+                 id = "pastePassword",
+                 actionButton("pastePassword", "Paste Password", 
+                              icon = icon("qrcode"),
+                              style = "background:#99ccff;color:#404040;")
+               ))
+      ),
       tags$style(type="text/css", "#passwordLabel {color:white;}"),
+      tags$style(type="text/css", "button#pastePassword{ margin-top:25px;}"),
       
       fluidRow(
         column(
@@ -434,6 +462,7 @@ server = function(input, output, session) {
     shinyjs::show("showhidePasswordField")
   })
   
+  
   observeEvent(input$hidePass, {
     updateTextInput(inputId = "showhidePasswordField", value = "")
     shinyjs::hide("showhidePasswordField")
@@ -449,6 +478,20 @@ server = function(input, output, session) {
     )
   })
   
+  ### Paste ----
+  observeEvent(input$pasteLogin,{
+    username = input$randomUsername
+    if(is_empty_input(username)) shinyalert("Alert", "Please Generate username !", type = "error")
+    else updateTextInput(inputId = "login",
+                         value = paste0(username))
+  })
+  
+  observeEvent(input$pastePassword,{
+    pass = input$randomPassword
+    if(is_empty_input(pass)) shinyalert("Alert", "Please Generate password !", type = "error")
+    else updateTextInput(inputId = "password",
+                         value = paste0(pass))
+  })
   
   #### Save Record ----
   observeEvent(input$saveRecord, {
@@ -986,12 +1029,19 @@ server = function(input, output, session) {
     shinyjs::show(id = "copyRandomUsername2clipboard")
     shinyjs::show(id = "turnOffUsernameGenerator")
     
+    updateTextInput(inputId = "randomUsername",
+                    value = paste0(username,input$appendNum))
     
-    output$randomUsername = renderText({
-      username = paste0(username,input$appendNum)
-      username
-      
+    observeEvent(input$appendNum,{
+      updateTextInput(inputId = "randomUsername",
+                      value = paste0(username,input$appendNum))
     })
+    
+    # output$randomUsername = renderText({
+    #   username = paste0(username,input$appendNum)
+    #   username
+    #   
+    # })
     
     output$randomUsername2clipboard <- renderUI({
       rclipboard::rclipButton(
@@ -1065,9 +1115,12 @@ server = function(input, output, session) {
     shinyjs::show(id = "copyRandomPassword2clipboard")
     shinyjs::show(id = "turnOffPasswordGenerator")
     
-    output$randomPassword <- renderText({
-      pass
-    })
+    updateTextInput(inputId = "randomPassword",
+                    value = pass)
+    
+    # output$randomPassword <- renderText({
+    #   pass
+    # })
     
     output$randomPassword2clipboard <- renderUI({
       rclipboard::rclipButton(
