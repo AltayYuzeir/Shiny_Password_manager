@@ -38,7 +38,7 @@ Option 2: Hosted online, e.g. shinyapps.io (NOT Recommended !)
 13. You can Generate many different Usernames and add Number at the end if you desire.
 14. You can Generate Passwords only with Letters and Numbers, or it can also contain Special characters.
 15. ALL Password Fields are displayed in a special font to improve readability between symbols such 0 (digit zero) and O (upper case o), and I (upper case i) and l (lower case L). 
-16. You will need to reload the Database Table upon Saving, Editing, Deleting or Removing duplicates.
+16. You will need to Reload the Database Table upon Saving, Editing, Deleting or Removing duplicates.
 
 # Acknowledgements and my thanks
 1. To the creators of the [EncryptDF](https://github.com/UW-L-S-Academic-Information-Management/EncryptDF) package. I have modified their code a bit for our purposes. Thanks to them we have the backbone of the our app - the encrypted password database.
