@@ -13,7 +13,8 @@ library(shinyalert) # fancy alerts for success and failure
 
 source(file = "functions.R")
 source(file = "user_manual.R")
-
+source(file = "tab_UI.R")
+source(file = "sidebar_UI.R")
 
 # Add your destination folder for permanent storage of your encrypted database
 path = Sys.getenv("USERPROFILE")
@@ -38,393 +39,31 @@ ui = fluidPage(
   
   sidebarLayout(
     sidebarPanel(
-      
-      tags$style(".well {background-color:#737373;}"), # #ffe6e6
-      
-      tags$head(
-        tags$style(
-          type = "text/css",
-          "
-             #loadmessage {
-               position: fixed;
-               top: 0px;
-               left: 0px;
-               width: 100%;
-               padding: 5px 0px 5px 0px;
-               text-align: center;
-               font-weight: bold;
-               font-size: 100%;
-               color: #000000;
-               background-color: #A74BA9;
-               z-index: 105;
-             }
-          "
-        )
-      ),
-      
-      fluidRow(
-        column( width = 4, 
-                offset = 3,
-                actionButton("userManual", "Open User manual", 
-                             icon = icon("book-open"), 
-                             style = "background:#70dbdb;color:#404040")
-                
-        )
-      ),
-      p(),
-      htmlOutput("userManualText"),
-      #br(),
-      uiOutput("hideUserManual"),
-      hr(),
-      #### Username generator ----
-      span(h3("Random Username Generator"),style = "color:white"),
-      
-      fluidRow(column( width = 6,
-                       div(id = "wordCount", radioButtons("wordCount", "Word count", choices = c(2,3,4),
-                                                          selected = 2, inline = T)),
-                       tags$style(type="text/css", "#wordCount {color:white;}")
-                       
-      ),
-      column(
-        width = 6,
-        div(id = "appendNumLabel", shinyjs::hidden(textInput("appendNum", "Append your number", placeholder = "0049"))),
-        tags$style(type="text/css", "#appendNumLabel {color:white;}")
-        
-      )
-      ),
-      div(id  = "letterCount", sliderInput("letterCount", "Number of letters in a word in range", 
-                                           min = 3, max = 14, value = c(4,12), step = 1)),
-      tags$style(type="text/css", "#letterCount {color:white;}"),
-      
-      actionButton("generateUsername", "Generate Username", 
-                   icon = icon("id-card-clip"),
-                   style = "background:#8cd9b3;color:#404040;"),
-      
-      p(),
-      div(id = "randomUsernameLabel", shinyjs::hidden(textInput('randomUsername', label = NULL))),
-      tags$style(type="text/css", "#randomUsernameLabel {font-family:;}"), #'Lucida Console'
-      
-      fluidRow(
-        column(
-          width = 6,
-          uiOutput("randomUsername2clipboard")
-          
-        ),
-        column(
-          width = 6,
-          uiOutput("turnOffUsernameGenerator")
-        )
-        
-      ),
-      
-      #### Password generator ----
-      hr(),
-      span(h3("Random Password Generator"),style = "color:white"),
-      #br(),
-      div(id = "passwordLength",sliderInput("passwordLength", 
-                                            label = "Length of Random Password",
-                                            value = 20, 
-                                            min = 10, 
-                                            max = 40, 
-                                            step = 1)),
-      tags$style(type="text/css", "#passwordLength {color:white;}"),
-      
-      
-      div(id = "randomPasswordType" ,radioButtons(inputId = "randomPasswordType", "Select password type:",
-                                                  choices = c("Letters & Numbers" = "noSpecials",
-                                                              "Letts & Nums + Specials" = "Specials"),
-                                                  inline = T)),
-      
-      tags$style(type="text/css", "#randomPasswordType {color:white;}"),
-      
-      
-      actionButton("generatePassword", "Generate Password", 
-                   icon = icon("qrcode"), style = "background:#99ccff;color:#404040;"), # #b3d9ff
-      p(),
-      div(id = "randomPasswordLabel", shinyjs::hidden(textInput('randomPassword', label = NULL))),
-      tags$style(type="text/css", "#randomPasswordLabel {font-family:'Lucida Console';}"), # font-family:'Lucida Console' # font-style: italic; font-family: 'Yusei Magic';
-      #font-family:'Lucida Console';
-      # font-family: 'Kirnberg';            
-      
-      
-      fluidRow(
-        column(
-          width = 6,
-          uiOutput("randomPassword2clipboard")
-          
-        ),
-        column(
-          width = 6,
-          uiOutput("turnOffPasswordGenerator")
-        )
-        
-      ),
-      
+      Sidebar_items,
       width = 4
     ),
     #### Main panel ----
     mainPanel(
+      shinyjs::useShinyjs(),
       tags$head(tags$style(
         HTML("hr {border-top: 1px solid #ffffff;}")
       )),
-      fluidRow(column(width = 9,
-                      div(id = "masterPasswordLabel",passwordInput(inputId = "masterPassword",
-                                                                   label = "Master Password:",
-                                                                   #placeholder = "EXample_M4ST3R!!!_p@ssw0rd;)",
-                                                                   placeholder = "3a2TR_3GG!!!_12land2;)",
-                                                                   width = "95%"
-                      ))),
-               tags$style(type="text/css", "#masterPasswordLabel {color:white;}"),
-               
-               column(width = 3,
-                      div(id ="masterPasswordOptions", radioButtons("masterPasswordOptions", "Select mode:", 
-                                                                    choices = c("Clear Master Password"="Clear", "Keep Master Password"="Keep"),
-                                                                    selected = "Keep",
-                                                                    inline = F)
-                      ))),
-      tags$style(type="text/css", "#masterPasswordOptions {color:white;}"),
-      
-      fluidRow(
-        column(
-          width = 2,
-          actionButton("showMasterPass",
-                       "Show",
-                       icon = icon("eye"),
-                       style = "background:#ccccff;color:#404040;")
-        ),
-        column(
-          #offset = 2,
-          width = 6,
-          uiOutput("outputMasterPass"),
-        ),
-        column(
-          width = 2,
-          actionButton("hideMasterPass",
-                       "Hide",
-                       icon = icon("eye-slash"),
-                       style = "background:#ccccff;color:#404040;")
-        )
-      ),
-      tags$style(type='text/css', "input#showhideMasterPasswordField {font-family:'Lucida Console'; margin-bottom: -20px; margin-left: -50px; margin-right: 0px;width: 390px}"),
-      tags$style(type='text/css', "button#hideMasterPass {  margin-left: -70px; }"),
-      
-      hr(),
-      
-      div(id = "websiteLabel",textInput(inputId = "website",
-                                        label = "Profile (website/credit card/other accounts):",
-                                        placeholder = "bubble.com"
-                                        
-      )),
-      tags$style(type="text/css", "#websiteLabel {color:white;}"),
-      fluidRow(
-        
-        column(width = 5,
-               div(
-                 id = "loginLabel",
-                 textInput(
-                   inputId = "login",
-                   label = "Login (username/email/phone number):",
-                   placeholder = "SlowGenomics1337"
-                   
-                 )
-               )),
-        column(width = 2,
-               
-               div(
-                 id = "pasteLogin",
-                 actionButton(inputId = "pasteLogin", label = "Paste Username", 
-                              icon = icon("id-card-clip"), 
-                              style = "background:#8cd9b3;color:#404040;"))
-        )
-      ),
-      tags$style(type="text/css", "#loginLabel {color:white;}"),
-      tags$style(type="text/css", "button#pasteLogin { margin-left: -30px; margin-top:25px;}"),
-      
-      fluidRow(
-        column(width = 7,
-               div(id ="passwordLabel",passwordInput(inputId = "password",
-                                                     label = "Password:",
-                                                     placeholder = "D1r7D3v1LChub8yB3rRy",
-                                                     width = "100%"
-                                                     
-               ))),
-        column(width = 2,
-               div(
-                 id = "pastePassword",
-                 actionButton("pastePassword", "Paste Password", 
-                              icon = icon("qrcode"),
-                              style = "background:#99ccff;color:#404040;")
-               ))
-      ),
-      tags$style(type="text/css", "#passwordLabel {color:white;}"),
-      tags$style(type="text/css", "button#pastePassword{ margin-top:25px;}"),
-      
-      fluidRow(
-        column(
-          width = 2,
-          actionButton("showPass",
-                       "Show",
-                       icon = icon("eye"),
-                       style = "background:#ccccff;color:#404040;")
-        ),
-        column(
-          #offset = 1,
-          width = 4,
-          uiOutput("outputPass"),
-        ),
-        column(
-          width = 1,
-          actionButton("hidePass",
-                       "Hide",
-                       icon = icon("eye-slash"),
-                       style = "background:#ccccff;color:#404040;"),
-          
-        ),
-        column(
-          width = 2,
-          uiOutput("password2clipboard")
-        )
-      ),
-      tags$style(type='text/css', "input#showhidePasswordField { font-family:'Lucida Console';margin-bottom: -20px; margin-left: -50px; width: 310px}"),
-      tags$style(type='text/css', "button#hidePass { margin-left: -10px;}"),
-      
-      #tags$style(type='text/css', "#password2clipboard { padding-left: 0px; }"),
-      
-      br(),
-      br(),
-      fluidRow(
-        column(
-          width = 2,
-          actionButton("saveRecord",
-                       "Save Record",
-                       icon = icon("check"),
-                       style = "background:#1affb2;color:#404040;")
-        ),
-        column(
-          width = 2,
-          actionButton("editRecord",
-                       "Edit Record",
-                       icon = icon("pen-to-square"),
-                       style = "background:#ffcc99;color:#404040;")
-        ),
-        column(
-          width = 2,
-          actionButton("deleteRecord",
-                       "Delete Record",
-                       icon = icon("xmark"),
-                       style = "background:#ff6666;color:#404040;")
-        ),
-        column(
-          width = 2,
-          actionButton("searchRecord",
-                       "Search Profiles",
-                       icon = icon("magnifying-glass"),
-                       style = "background:#df9fbf;color:#404040;")
-          
-        ),
-        column(
-          width = 4,
-          #selectizeInput("searchRecord", label = NULL, choices = "")
-          uiOutput("searchBarWebsite")
-        )
-        
-      ),
-      #p(),
-      fluidRow(
-        column(
-          width = 2,
-          offset = 2,
-          #p(),
-          uiOutput("confirmEditRecord")
-          
-        ),
-        column(
-          width = 2,
-          offset = 0,
-          #p(),
-          uiOutput("confirmDeleteRecord")
-          
-        ),
-        
-        column(
-          width = 2,
-          offset = 0,
-          uiOutput("searchLoginButton")
-          
-        ),
-        
-        column(
-          width = 4,
-          uiOutput("searchBarLogin")
-          
-        )
-      ),
-      
-      tags$head(
-        tags$style(HTML("
-
-        #searchBarLoginStyle {
-          padding-top: 5px;
-        }
-
-      "))
-      ),
-      
-      fluidRow(
-        column(
-          width = 2,
-          offset = 2,
-          #p(),
-          uiOutput("cancelEditRecord")
-          
-        ),
-        column(
-          width = 2,
-          offset = 0,
-          #p(),
-          uiOutput("cancelDeleteRecord")
-          
-        ),
-        column(
-          width = 2,
-          offset = 2,
-          uiOutput("loadRecordButton")
-          
-        ),
-        column(
-          width = 2,
-          uiOutput("closeSearchButton")
-          
-        )
-      ),
-      tags$style(type='text/css', "button#closeSearch { margin-left: -10px; }"),
-      
-      br(),
-      hr(),
-      fluidRow(
-        column(
-          width = 2,
-          offset = 2,
-          downloadButton("downloadDatabase", "Download Database",
-                         style = "background:#bfbfbf;color:#404040;"),
-          
-        ),
-        column(
-          width = 2,
-          offset = 3,
-          actionButton("removeDuplicates", "Remove Duplicates", icon = icon("eraser"),
-                       style = "background:#bfbfbf;color:#404040;"),
-          
-        )
-      ),
-      hr(),
-      
-      div(style="text-align:center; color: #80b3ff", tags$b("Copyright"),icon("copyright"),
-          tags$b("2022-2022"),br(), tags$b("Altay Yuzeir")),
-      br(),
-      #hr(),
-      shinyjs::useShinyjs()
-      
+      tabsetPanel(type = "tabs",
+                  tabPanel(span(style = "color:#9999ff;font-weight:bold;",
+                                "User Interface"), 
+                           uiOutput("UserInterface"),
+                           icon = span(style = "color:#9999ff;font-weight:bold;",
+                                       icon("users-rectangle"))
+                  ),
+                  tabPanel(span(style = "color:#cc6699;font-weight:bold;",
+                                "Database Table"), 
+                           span(style = "color:#cc6699;font-weight:bold;",
+                                dataTableOutput("Database")
+                           ),
+                           icon = span(style = "color:#cc6699;font-weight:bold;",
+                                       icon("table"))
+                  )
+      )
     )
   )  
 )
@@ -432,8 +71,56 @@ ui = fluidPage(
 #### Server ----
 server = function(input, output, session) {
   
-  shinytitle::change_window_title(session, title = "YuPass")
+  output$UserInterface = renderUI({
+    UserInterface_items
+  })
   
+  # Database tab ----
+  output$Database = renderDataTable({
+    new_datatable = matrix(nrow = 1, ncol = 2)
+    new_datatable = data.frame(new_datatable)
+    colnames(new_datatable) = c("Website", "Login")
+    MasterPassword = input$masterPassword
+    if(is_empty_input(MasterPassword))
+    {
+      new_datatable$Website[1] = "Please provide"
+      new_datatable$Login[1] = "Master password !"
+      new_datatable
+    } else{
+      
+      passphrase <- charToRaw(MasterPassword)
+      key <- openssl::sha256(passphrase)
+      if(file.exists(paste0(path,"Database.ycpt"))){
+        database = read.aes(paste0(path,"Database.ycpt"), key = key)
+        if( !all(colnames(database) == c("Website", "Login", "Password") ) )
+        {
+          new_datatable$Website[1] = "Please provide correct"
+          new_datatable$Login[1] = "Master password !"
+          new_datatable
+        } else {
+          if(nrow(database) == 1)
+          {
+            new_datatable$Website[1] = "No records exist"
+            new_datatable$Login[1] = "in the Database !"
+            new_datatable
+          } else{
+            new_datatable2 = database$Website[2:length(database$Website)]
+            new_datatable3 = database$Login[2:length(database$Login)]
+            new_datatable = as.data.frame(cbind(new_datatable2,new_datatable3))
+            colnames(new_datatable) = c("Website", "Login")
+            new_datatable
+          }
+        }
+      } else
+      {
+        new_datatable$Website[1] = "Encrypted Database"
+        new_datatable$Login[1] = "does not exist !"
+        new_datatable
+      }
+    }
+  })
+  
+  shinytitle::change_window_title(session, title = "YuPass")
   
   #### Show-Hide Master Password ----
   observeEvent(input$showMasterPass, {
@@ -449,6 +136,10 @@ server = function(input, output, session) {
   observeEvent(input$hideMasterPass, {
     updateTextInput(inputId = "showhideMasterPasswordField", value = "")
     shinyjs::hide("showhideMasterPasswordField")
+  })
+  
+  observeEvent(input$reloadButton, {
+    session$reload()
   })
   
   #### Show-Hide Password ----
@@ -517,7 +208,7 @@ server = function(input, output, session) {
         key <- openssl::sha256(passphrase)
         
         database = read.aes(paste0(path,"Database.ycpt"), key = key)
-        if(ncol(database) != 3) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
+        if(!all(colnames(database) == c("Website", "Login", "Password") )) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
         else {
           
           record = c(Website, Login, Password)
@@ -541,7 +232,7 @@ server = function(input, output, session) {
         
         write.aes(database, paste0(path,"Database.ycpt"), key = key)
         shinyalert("Success", "You have created new \n Encrypted password database !", type = "success")
-        
+        #session$reload()
       }
       
       mode = input$masterPasswordOptions
@@ -573,7 +264,7 @@ server = function(input, output, session) {
                    key <- openssl::sha256(passphrase)
                    if(file.exists(paste0(path,"Database.ycpt"))){
                      database = read.aes(paste0(path,"Database.ycpt"), key = key)
-                     if(ncol(database) != 3) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
+                     if(!all(colnames(database) == c("Website", "Login", "Password") )) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
                      else {
                        
                        for_deletion = subset(database, Website == input$website & Login == input$login)
@@ -635,7 +326,7 @@ server = function(input, output, session) {
       key <- openssl::sha256(passphrase)
       if(file.exists(paste0(path,"Database.ycpt"))){
         database = read.aes(paste0(path,"Database.ycpt"), key = key)
-        if(ncol(database) != 3) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
+        if(!all(colnames(database) == c("Website", "Login", "Password") )) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
         else {
           
           for_deletion = subset(database, Website == input$website & Login == input$login)
@@ -648,11 +339,21 @@ server = function(input, output, session) {
           }
           else {
             id <- as.numeric(rownames(for_deletion))
+            
             write.aes(database[-id,], paste0(path,"Database.ycpt"), key = key)
             
             shinyalert("Success", "You have deleted this record !", type = "success")
             shinyjs::hide("confirmDeleteRecordButton")
             shinyjs::hide("cancelDeleteRecordButton")
+            
+            if(nrow(database) == 2){
+              shinyjs::hide(id = "searchWebsiteField")
+              shinyjs::hide(id = "searchLogin")
+              shinyjs::hide(id = "searchLoginField")
+              shinyjs::hide(id = "loadRecord")
+              shinyjs::hide(id = "closeSearch")    
+            }
+            #session$reload()
             
           }
           
@@ -695,7 +396,7 @@ server = function(input, output, session) {
       key <- openssl::sha256(passphrase)
       if(file.exists(paste0(path,"Database.ycpt"))){
         database = read.aes(paste0(path,"Database.ycpt"), key = key)
-        if(ncol(database) != 3) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
+        if(!all(colnames(database) == c("Website", "Login", "Password") )) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
         else {
           for_edit <<- subset(database, Website == input$website & Login == input$login)
           
@@ -750,7 +451,7 @@ server = function(input, output, session) {
       key <- openssl::sha256(passphrase)
       if(file.exists(paste0(path,"Database.ycpt"))){
         database = read.aes(paste0(path,"Database.ycpt"), key = key)
-        if(ncol(database) != 3) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
+        if(!all(colnames(database) == c("Website", "Login", "Password") )) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
         else {
           
           if (nrow(for_edit) == 0) {
@@ -773,6 +474,7 @@ server = function(input, output, session) {
             shinyalert("Success", "You have edited this record !", type = "success")
             shinyjs::hide("confirmEditRecordButton")
             shinyjs::hide("cancelEditRecordButton")
+            #session$reload()
             
             
           }}
@@ -809,30 +511,32 @@ server = function(input, output, session) {
       key <- openssl::sha256(passphrase)
       if(file.exists(paste0(path,"Database.ycpt"))){
         database = read.aes(paste0(path,"Database.ycpt"), key = key)
-        if(ncol(database) != 3) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
+        if(!all(colnames(database) == c("Website", "Login", "Password") )) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
         else {
-          websites = database$Website
-          websites = websites[2:length(websites)]
-          #websites[1] = "You can delete and type :)"
-          
-          output$searchBarWebsite = renderUI({
+          if(nrow(database) == 1) shinyalert("Alert", "Encrypted Database is empty !\n No records are present in the Database !", type = "error")
+          else{
+            websites = database$Website
+            websites = websites[2:length(websites)]
+            #websites[1] = "You can delete and type :)"
             
-            selectInput(inputId = "searchWebsiteField",
-                        label = NULL,
-                        choices = websites,
-                        #selected = websites[1],
-                        selectize = T)
-          })
-          
-          output$searchLoginButton = renderUI({
-            actionButton("searchLogin", "Search Logins", icon = icon("right-to-bracket"),
-                         style = "background:#df9fbf;color:#404040;margin-top:5px;")
-          })
-          
-          mode = input$masterPasswordOptions
-          if(mode == "Keep") return()
-          else updateTextInput(inputId = "masterPassword", value = "")
-        }
+            output$searchBarWebsite = renderUI({
+              
+              selectInput(inputId = "searchWebsiteField",
+                          label = NULL,
+                          choices = websites,
+                          #selected = websites[1],
+                          selectize = T)
+            })
+            
+            output$searchLoginButton = renderUI({
+              actionButton("searchLogin", "Search Logins", icon = icon("right-to-bracket"),
+                           style = "background:#df9fbf;color:#404040;margin-top:5px;")
+            })
+            
+            mode = input$masterPasswordOptions
+            if(mode == "Keep") return()
+            else updateTextInput(inputId = "masterPassword", value = "")
+          }}
       } else shinyalert("Alert", "This Encrypted database does not exist !", type = "error")
       
     }
@@ -851,7 +555,7 @@ server = function(input, output, session) {
       key <- openssl::sha256(passphrase)
       
       database = read.aes(paste0(path,"Database.ycpt"), key = key)
-      if(ncol(database) != 3) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
+      if(!all(colnames(database) == c("Website", "Login", "Password") )) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
       else {
         logins = subset(database, Website == input$searchWebsiteField)
         logins = logins$Login
@@ -905,7 +609,7 @@ server = function(input, output, session) {
       key <- openssl::sha256(passphrase)
       
       database = read.aes(paste0(path,"Database.ycpt"), key = key)
-      if(ncol(database) != 3) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
+      if(!all(colnames(database) == c("Website", "Login", "Password") )) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
       else {
         password = subset(database, Website == input$searchWebsiteField & 
                             Login == input$searchLoginField)
@@ -951,7 +655,7 @@ server = function(input, output, session) {
         key <- openssl::sha256(passphrase)
         
         database = read.aes(paste0(path,"Database.ycpt"), key = key)
-        if(ncol(database) != 3) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
+        if(!all(colnames(database) == c("Website", "Login", "Password") )) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
         else write.aes(database, file, key = key)
       }
     }
@@ -971,7 +675,7 @@ server = function(input, output, session) {
       key <- openssl::sha256(passphrase)
       
       database = read.aes(paste0(path,"Database.ycpt"), key = key)
-      if(ncol(database) != 3) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
+      if(!all(colnames(database) == c("Website", "Login", "Password") )) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
       else {
         database = unique(database)
         write.aes(database, paste0(path,"Database.ycpt"), key=key)
