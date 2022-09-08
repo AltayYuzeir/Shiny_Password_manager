@@ -39,13 +39,6 @@ fluidRow(
                  "Hide",
                  icon = icon("eye-slash"),
                  style = "background:#ccccff;color:#404040;")
-  ),
-  column(
-    width = 2,
-    actionButton("reloadButton",
-                 "Reload Database",
-                 icon = icon("arrow-rotate-left"),
-                 style = "background:#cc6699;color:#404040;")
   )
 ),
 tags$style(type='text/css', "input#showhideMasterPasswordField {font-family:'Lucida Console'; margin-bottom: -20px; margin-left: -50px; margin-right: 0px;width: 390px}"),

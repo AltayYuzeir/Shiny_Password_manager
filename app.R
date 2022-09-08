@@ -15,6 +15,7 @@ source(file = "functions.R")
 source(file = "user_manual.R")
 source(file = "tab_UI.R")
 source(file = "sidebar_UI.R")
+source(file = "reload_database.R")
 
 # Add your destination folder for permanent storage of your encrypted database
 path = Sys.getenv("USERPROFILE")
@@ -139,52 +140,6 @@ server = function(input, output, session) {
     shinyjs::hide("showhideMasterPasswordField")
   })
   
-  # Reload button ----
-  observeEvent(input$reloadButton, {
-    output$Database = renderDataTable({
-      new_datatable = matrix(nrow = 1, ncol = 2)
-      new_datatable = data.frame(new_datatable)
-      colnames(new_datatable) = c("Website", "Login")
-      MasterPassword = input$masterPassword
-      if(is_empty_input(MasterPassword))
-      {
-        new_datatable$Website[1] = "Please provide"
-        new_datatable$Login[1] = "Master password !"
-        new_datatable
-      } else{
-        
-        passphrase <- charToRaw(MasterPassword)
-        key <- openssl::sha256(passphrase)
-        if(file.exists(paste0(path,"Database.ycpt"))){
-          database = read.aes(paste0(path,"Database.ycpt"), key = key)
-          if( !all(colnames(database) == c("Website", "Login", "Password") ) )
-          {
-            new_datatable$Website[1] = "Please provide correct"
-            new_datatable$Login[1] = "Master password !"
-            new_datatable
-          } else {
-            if(nrow(database) == 1)
-            {
-              new_datatable$Website[1] = "No records exist"
-              new_datatable$Login[1] = "in the Database !"
-              new_datatable
-            } else{
-              new_datatable2 = database$Website[2:length(database$Website)]
-              new_datatable3 = database$Login[2:length(database$Login)]
-              new_datatable = as.data.frame(cbind(new_datatable2,new_datatable3))
-              colnames(new_datatable) = c("Website", "Login")
-              new_datatable
-            }
-          }
-        } else
-        {
-          new_datatable$Website[1] = "Encrypted Database"
-          new_datatable$Login[1] = "does not exist !"
-          new_datatable
-        }
-      }
-    })
-  })
   
   #### Show-Hide Password ----
   observeEvent(input$showPass, {
@@ -261,6 +216,10 @@ server = function(input, output, session) {
           write.aes(database, paste0(path,"Database.ycpt"), key = key)
           
           shinyalert("Success", "Record successfully added to the database !", type = "success")
+          
+          output$Database = renderDataTable({
+            reload_database_table(input$masterPassword, path)
+          })
         }
         
       } else {
@@ -276,13 +235,13 @@ server = function(input, output, session) {
         
         write.aes(database, paste0(path,"Database.ycpt"), key = key)
         shinyalert("Success", "You have created new \n Encrypted password database !", type = "success")
-        #session$reload()
       }
       
       mode = input$masterPasswordOptions
       if(mode == "Keep") return()
       else updateTextInput(inputId = "masterPassword", value = "")
       #shinyjs::hide("showhideMasterPasswordField")
+      
       
     }
   })
@@ -397,7 +356,11 @@ server = function(input, output, session) {
               shinyjs::hide(id = "loadRecord")
               shinyjs::hide(id = "closeSearch")    
             }
-            #session$reload()
+            
+            output$Database = renderDataTable({
+              reload_database_table(input$masterPassword, path)
+            })
+            
             
           }
           
@@ -518,8 +481,10 @@ server = function(input, output, session) {
             shinyalert("Success", "You have edited this record !", type = "success")
             shinyjs::hide("confirmEditRecordButton")
             shinyjs::hide("cancelEditRecordButton")
-            #session$reload()
             
+            output$Database = renderDataTable({
+              reload_database_table(input$masterPassword, path)
+            })
             
           }}
         
@@ -710,9 +675,9 @@ server = function(input, output, session) {
     
     MasterPassword = input$masterPassword
     
-    if (          is_empty_input(MasterPassword)
-                  
-                  
+    if (is_empty_input(MasterPassword)
+        
+        
     ) shinyalert("Alert", "Please fill out all fields: \n Master Password !", type = "error")
     else {
       passphrase <- charToRaw(MasterPassword)
@@ -725,6 +690,10 @@ server = function(input, output, session) {
         write.aes(database, paste0(path,"Database.ycpt"), key=key)
         
         shinyalert("Success", "You have successfully removed all duplicates !", type = "success")
+        
+        output$Database = renderDataTable({
+          reload_database_table(input$masterPassword, path)
+        })
       }
     }
   })
