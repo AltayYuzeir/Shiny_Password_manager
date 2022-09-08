@@ -51,6 +51,9 @@ user_manual =  HTML(
     tags$em(
       span("15. ALL Password Fields are displayed in a special font to improve readability between symbols such 0 (digit zero) and O (upper case o), and I (upper case i) and l (lower case L).", style = style)
     ),
+    tags$em(
+      span("16. You will need to reload the Database Table upon Saving, Editing, Deleting or Removing duplicates.", style = style)
+    ),
     sep = "<br/>"
   )
 )
