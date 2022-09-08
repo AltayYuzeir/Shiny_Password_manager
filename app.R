@@ -53,7 +53,7 @@ ui = fluidPage(
                                 "User Interface"), 
                            uiOutput("UserInterface"),
                            icon = span(style = "color:#9999ff;font-weight:bold;",
-                                       icon("users-rectangle"))
+                                       icon("keyboard"))
                   ),
                   tabPanel(span(style = "color:#cc6699;font-weight:bold;",
                                 "Database Table"), 
