@@ -26,7 +26,7 @@ Option 2: Hosted online, e.g. shinyapps.io (NOT Recommended !)
 3. You will need to modify the code a bit. You will need the special functions for reading the encrypted database from Dropbox _drop_read.aes_ by providing the database filename, encryption key and Dropbox access token. Once you have done changes to the database, you create file in the virtual environment with _write.aes_ function and you upload it to Dropbox with _drop_upload_ by providing name and Dropbox token.
 
 # User manual (same as the in-app one)
-1. Input Your Master Password to access the encrypted database. Master Password is needed for every operation!
+1. Input Your Master Password to access the encrypted Database. Master Password is needed for every operation!
 2. You can Keep the Master Passward continuously, or Clear it after every operation.
 3. Encrypeted database will be created together with the first Record you provide.
 4. You can Edit a Record by providing Website and Login. You select Record to be edited and press Edit. You can change Website, Login and Password and then you need to Confirm the Edit procedure.
