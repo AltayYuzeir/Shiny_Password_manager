@@ -31,7 +31,7 @@ fluidRow(
   column(
     #offset = 2,
     width = 6,
-    uiOutput("outputMasterPass"),
+    shinyjs::hidden(textInput("showhideMasterPasswordField", label = NULL)),
   ),
   column(
     width = 2,
@@ -107,7 +107,7 @@ fluidRow(
   column(
     #offset = 1,
     width = 4,
-    uiOutput("outputPass"),
+    shinyjs::hidden(textInput("showhidePasswordField", label = NULL)),
   ),
   column(
     width = 1,

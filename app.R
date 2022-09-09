@@ -87,13 +87,13 @@ server = function(input, output, session) {
   #### Show-Hide Master Password ----
   observeEvent(input$showMasterPass, {
     Password = input$masterPassword
-    output$outputMasterPass = renderUI({
-      textInput("showhideMasterPasswordField",
-                label = NULL,
-                value = Password)
-    })
+    updateTextInput(inputId = "showhideMasterPasswordField",
+                    label = NULL,
+                    value = input$masterPassword)
+    
     shinyjs::show("showhideMasterPasswordField")
   })
+  
   
   observeEvent(input$hideMasterPass, {
     updateTextInput(inputId = "showhideMasterPasswordField", value = "")
@@ -104,12 +104,11 @@ server = function(input, output, session) {
   #### Show-Hide Password ----
   observeEvent(input$showPass, {
     Password = input$password
-    output$outputPass = renderUI({
-      textInput("showhidePasswordField",
-                label = NULL,
-                value = Password,
-                width = "100%")
-    })
+    updateTextInput(inputId = "showhidePasswordField",
+                    label = NULL,
+                    value = input$password
+    )
+    
     shinyjs::show("showhidePasswordField")
   })
   
