@@ -10,7 +10,8 @@ I could not find a usable password manager written in R and Shiny, so I decided 
 Current version v1.2
 - Websites and Logins can easily be browsed in the _*Database Table*_ tab (Master Password needed) 🔥**NEW**🔥
 
-<img src="user_interface.png" align="center" width=100% height=400 alt="" />
+<img src="user_interface_ui.png" align="center" width=100% height=400 alt="" />
+<img src="user_interface_table.png" align="center" width=100% height=400 alt="" />
 
 # Setup
 Option 1: Hosted locally (Strongly Recommended !)
