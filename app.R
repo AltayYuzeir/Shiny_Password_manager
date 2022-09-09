@@ -58,9 +58,14 @@ ui = fluidPage(
                   ),
                   tabPanel(span(style = "color:#cc6699;font-weight:bold;",
                                 "Database Table"), 
+                           p(),
                            span(style = "color:#cc6699;font-weight:bold;",
                                 dataTableOutput("Database")
                            ),
+                           hr(),
+                           
+                           div(style="text-align:center; color: #80b3ff", tags$b("Copyright"),icon("copyright"),
+                               tags$b("2022-2022"),br(), tags$b("Altay Yuzeir")),
                            
                            icon = span(style = "color:#cc6699;font-weight:bold;",
                                        icon("table"))
