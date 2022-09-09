@@ -181,6 +181,13 @@ server = function(input, output, session) {
             output$Database = renderDataTable({
               reload_database_table(input$masterPassword, path)
             })
+            
+            shinyjs::hide(id = "searchWebsiteField")
+            shinyjs::hide(id = "searchLogin")
+            shinyjs::hide(id = "searchLoginField")
+            shinyjs::hide(id = "loadRecord")
+            shinyjs::hide(id = "closeSearch") 
+            
           }}
         
       } else {
@@ -322,6 +329,11 @@ server = function(input, output, session) {
               reload_database_table(input$masterPassword, path)
             })
             
+            shinyjs::hide(id = "searchWebsiteField")
+            shinyjs::hide(id = "searchLogin")
+            shinyjs::hide(id = "searchLoginField")
+            shinyjs::hide(id = "loadRecord")
+            shinyjs::hide(id = "closeSearch") 
             
           }
           
@@ -446,6 +458,12 @@ server = function(input, output, session) {
             output$Database = renderDataTable({
               reload_database_table(input$masterPassword, path)
             })
+            
+            shinyjs::hide(id = "searchWebsiteField")
+            shinyjs::hide(id = "searchLogin")
+            shinyjs::hide(id = "searchLoginField")
+            shinyjs::hide(id = "loadRecord")
+            shinyjs::hide(id = "closeSearch") 
             
           }}
         
