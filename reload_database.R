@@ -1,10 +1,10 @@
 
-reload_database_table = function(password, path){
-  path = path
+reload_database_table = function(Master_Password, data_path){
+  path = data_path
   new_datatable = matrix(nrow = 1, ncol = 2)
   new_datatable = data.frame(new_datatable)
   colnames(new_datatable) = c("Website", "Login")
-  MasterPassword = password
+  MasterPassword = Master_Password
   if(is_empty_input(MasterPassword))
   {
     new_datatable$Website[1] = "Please provide"

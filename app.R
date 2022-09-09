@@ -169,18 +169,19 @@ server = function(input, output, session) {
         database = read.aes(paste0(path,"Database.ycpt"), key = key)
         if(!all(colnames(database) == c("Website", "Login", "Password") )) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
         else {
-          
-          record = c(Website, Login, Password)
-          database = rbind(database, record)
-          
-          write.aes(database, paste0(path,"Database.ycpt"), key = key)
-          
-          shinyalert("Success", "Record successfully added to the database !", type = "success")
-          
-          output$Database = renderDataTable({
-            reload_database_table(input$masterPassword, path)
-          })
-        }
+          if(any(Website == database$Website) & any(Login == database$Login) ) shinyalert("Alert", "This records alredy exists !\n Website and Login information is in Database !", type = "error")
+          else {
+            record = c(Website, Login, Password)
+            database = rbind(database, record)
+            
+            write.aes(database, paste0(path,"Database.ycpt"), key = key)
+            
+            shinyalert("Success", "Record successfully added to the database !", type = "success")
+            
+            output$Database = renderDataTable({
+              reload_database_table(input$masterPassword, path)
+            })
+          }}
         
       } else {
         
@@ -688,18 +689,7 @@ server = function(input, output, session) {
   #### Username Generator ----
   observeEvent(input$generateUsername,{
     
-    list = subset(word_bank, word_bank$word_length >= input$letterCount[1] & word_bank$word_length <= input$letterCount[2])
-    
-    index = sample(nrow(list), size = input$wordCount)
-    
-    username = vector()
-    j=1
-    for(i in index){
-      username[j] = list$word[i]
-      j=j+1
-    }
-    username = stringr::str_to_title(username)
-    username <- paste(username, collapse="")  
+    username = username_generator(input$letterCount, input$wordCount)
     
     shinyjs::show(id = "randomUsername")
     shinyjs::show(id = "copyRandomUsername2clipboard")
@@ -714,11 +704,6 @@ server = function(input, output, session) {
                       value = paste0(username,input$appendNum))
     })
     
-    # output$randomUsername = renderText({
-    #   username = paste0(username,input$appendNum)
-    #   username
-    #   
-    # })
     
     output$randomUsername2clipboard <- renderUI({
       rclipboard::rclipButton(
@@ -751,42 +736,7 @@ server = function(input, output, session) {
   #### Password Generator ----
   observeEvent(input$generatePassword,{
     
-    set.seed(round(runif(1,-5000,5000)))
-    
-    A <- LETTERS[1:26]
-    A = sample(A, length(A))
-    B <- letters[1:26]
-    B = sample(B, length(B))
-    C <- seq(0,9)
-    # C <- c(seq(0,9),seq(0,9))
-    C = sample(C, length(C))
-    #ascii <- rawToChar(as.raw(0:127), multiple=TRUE)
-    #D <-  ascii[grepl('[[:punct:]]', ascii)][c(1:23,25:32)]
-    
-    # Some special characters are not used as they are hard to read
-    D = c("!","#","$","%","&","*","+","-","=","?","@","~","<",">","|",":",";")
-    D = sample(D, length(D))
-    
-    passwordtype = input$randomPasswordType
-    if(passwordtype == "Specials"){
-      All <- c(A, B, C, D)
-      All = sample(All, length(All))
-    }else{
-      All <- c(A, B, C)
-      All = sample(All, length(All))
-    }
-    set.seed(round(runif(1,-5000,5000)))
-    
-    get_length = input$passwordLength
-    
-    pass <- vector(length=get_length)
-    
-    for (i in 1:get_length){
-      pass[i] <- sample(All, 1)
-    }
-    pass <- paste(pass, collapse="")                            
-    
-    #output$pw <- renderPrint(noquote(pass))
+    pass = password_generator(input$randomPasswordType, input$passwordLength)                    
     
     shinyjs::show(id = "randomPassword")
     shinyjs::show(id = "copyRandomPassword2clipboard")
@@ -795,9 +745,6 @@ server = function(input, output, session) {
     updateTextInput(inputId = "randomPassword",
                     value = pass)
     
-    # output$randomPassword <- renderText({
-    #   pass
-    # })
     
     output$randomPassword2clipboard <- renderUI({
       rclipboard::rclipButton(
