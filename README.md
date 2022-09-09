@@ -16,7 +16,8 @@ Current version v1.2
 # Setup
 Option 1: Hosted locally (Strongly Recommended !)
 1. Download all provided files.
-2. Encrypted Database will be creted in the the location **C:\\Users\\<<YOUR_USERNAME>>\\YuPass_Password_Manager**.
+2. Encrypted Database will be creted in the the location\
+**C:\\Users\\<<YOUR_USERNAME>>\\YuPass_Password_Manager\\**
 3. Download and install the [shinyShortcut](https://cran.r-project.org/web/packages/shinyShortcut/README.html) package and follow the instructions. 
 4. Run the _shinyShortcut_ command. You will get a standalone .VBS executable file which can be executed without R or RStudio being open.
 5. Read the provided in-app user manual at least once :)
