@@ -11,6 +11,7 @@ fluidRow(column(width = 9,
                                                              width = "95%"
                 ))),
          tags$style(type="text/css", "#masterPasswordLabel {color:white;}"),
+         tags$style(type="text/css", "#masterPassword {font-family:'Lucida Console';}"),
          
          column(width = 3,
                 div(id ="masterPasswordOptions", radioButtons("masterPasswordOptions", "Select mode:", 
@@ -53,6 +54,7 @@ div(id = "websiteLabel",textInput(inputId = "website",
                                   
 )),
 tags$style(type="text/css", "#websiteLabel {color:white;}"),
+tags$style(type="text/css", "#website {font-family:'Lucida Console';}"),
 fluidRow(
   
   column(width = 5,
@@ -75,6 +77,7 @@ fluidRow(
   )
 ),
 tags$style(type="text/css", "#loginLabel {color:white;}"),
+tags$style(type="text/css", "#login {font-family:'Lucida Console';}"),
 tags$style(type="text/css", "button#pasteLogin { margin-left: -30px; margin-top:25px;}"),
 
 fluidRow(
@@ -94,6 +97,7 @@ fluidRow(
          ))
 ),
 tags$style(type="text/css", "#passwordLabel {color:white;}"),
+tags$style(type="text/css", "#password {font-family:'Lucida Console';;}"),
 tags$style(type="text/css", "button#pastePassword{ margin-top:25px;}"),
 
 fluidRow(
@@ -162,7 +166,7 @@ fluidRow(
   column(
     width = 4,
     #selectizeInput("searchRecord", label = NULL, choices = "")
-    uiOutput("searchBarWebsite")
+    span(style = "font-family:'Lucida Console'", uiOutput("searchBarWebsite"))
   )
   
 ),
@@ -192,7 +196,7 @@ fluidRow(
   
   column(
     width = 4,
-    uiOutput("searchBarLogin")
+    span(style = "font-family:'Lucida Console'",uiOutput("searchBarLogin"))
     
   )
 ),

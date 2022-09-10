@@ -65,7 +65,7 @@ actionButton("generateUsername", "Generate Username",
 
 p(),
 div(id = "randomUsernameLabel", shinyjs::hidden(textInput('randomUsername', label = NULL))),
-tags$style(type="text/css", "#randomUsernameLabel {font-family:;}"), #'Lucida Console'
+tags$style(type="text/css", "#randomUsernameLabel {font-family:'Lucida Console';}"), #'Lucida Console'
 
 fluidRow(
   column(

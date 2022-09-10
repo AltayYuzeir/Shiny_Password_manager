@@ -49,7 +49,7 @@ user_manual =  HTML(
       span("14. You can Generate Passwords only with Letters and Numbers, or it can also contain Special characters.", style = style)
     ),
     tags$em(
-      span("15. ALL Password Fields are displayed in a special font to improve readability between symbols such 0 (digit zero) and O (upper case o), and I (upper case i) and l (lower case L).", style = style)
+      span("15. All Fields are displayed in a special font to improve readability between symbols such 0 (digit zero) and O (upper case o), and I (upper case i) and l (lower case L).", style = style)
     ),
     sep = "<br/>"
   )

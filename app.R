@@ -59,7 +59,9 @@ ui = fluidPage(
                   tabPanel(span(style = "color:#cc6699;font-weight:bold;",
                                 "Database Table"), 
                            p(),
-                           span(style = "color:#cc6699;font-weight:bold;",
+                           p(span(style ="color:#888888;font-weight:bold;",
+                                  "If you see 'Error: incomplete final line found by readTableHeader on text', your Master password is wrong !")),
+                           span(style = "color:#cc6699;font-weight:bold;font-family:'Lucida Console';",
                                 dataTableOutput("Database")
                            ),
                            hr(),
