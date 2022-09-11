@@ -74,11 +74,16 @@ fluidRow(
            actionButton(inputId = "pasteLogin", label = "Paste Username", 
                         icon = icon("id-card-clip"), 
                         style = "background:#8cd9b3;color:#404040;"))
+  ),
+  column(
+    width = 2,
+    div(id = "login2clipboard", uiOutput("login2clipboard"))
   )
 ),
 tags$style(type="text/css", "#loginLabel {color:white;}"),
 tags$style(type="text/css", "#login {font-family:'Lucida Console';}"),
 tags$style(type="text/css", "button#pasteLogin { margin-left: -30px; margin-top:25px;}"),
+tags$style(type="text/css", "#login2clipboard {margin-top:25px;}"),
 
 fluidRow(
   column(width = 7,

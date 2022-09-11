@@ -135,6 +135,16 @@ server = function(input, output, session) {
     )
   })
   
+  output$login2clipboard = renderUI({
+    rclipboard::rclipButton(
+      inputId = "copyPassword2clipboard",
+      label = "Copy to Clipboard",
+      clipText = input$login,
+      icon = icon("clipboard"),
+      style = "background:#b3b3ff;color:#404040;"
+    )
+  })
+  
   ### Paste ----
   observeEvent(input$pasteLogin,{
     username = input$randomUsername
