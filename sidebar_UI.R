@@ -43,19 +43,19 @@ hr(),
 span(h3("Random Username Generator"),style = "color:white"),
 
 fluidRow(column( width = 6,
-                 div(id = "wordCount", radioButtons("wordCount", "Word count", choices = c(2,3,4),
+                 div(id = "wordCount", radioButtons("wordCount", "Word count:", choices = c(2,3,4),
                                                     selected = 2, inline = T)),
                  tags$style(type="text/css", "#wordCount {color:white;}")
                  
 ),
 column(
   width = 6,
-  div(id = "appendNumLabel", shinyjs::hidden(textInput("appendNum", "Append your number", placeholder = "0049"))),
+  div(id = "appendNumLabel", shinyjs::hidden(textInput("appendNum", "Append your number:", placeholder = "0049"))),
   tags$style(type="text/css", "#appendNumLabel {color:white;}")
   
 )
 ),
-div(id  = "letterCount", sliderInput("letterCount", "Number of letters in a word in range", 
+div(id  = "letterCount", sliderInput("letterCount", "Letter count for a word in range:", 
                                      min = 3, max = 14, value = c(4,12), step = 1)),
 tags$style(type="text/css", "#letterCount {color:white;}"),
 
@@ -85,7 +85,7 @@ hr(),
 span(h3("Random Password Generator"),style = "color:white"),
 #br(),
 div(id = "passwordLength",sliderInput("passwordLength", 
-                                      label = "Length of Random Password",
+                                      label = "Length of Random Password:",
                                       value = 20, 
                                       min = 10, 
                                       max = 40, 
