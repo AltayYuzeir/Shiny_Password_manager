@@ -48,13 +48,13 @@ tags$style(type='text/css', "button#reloadButton {  margin-left: -60px; }"),
 
 hr(),
 
-div(id = "websiteLabel",textInput(inputId = "website",
+div(id = "profileLabel",textInput(inputId = "profile",
                                   label = "Profile (website/credit card/other accounts):",
                                   placeholder = "bubble.com"
                                   
 )),
-tags$style(type="text/css", "#websiteLabel {color:white;}"),
-tags$style(type="text/css", "#website {font-family:'Lucida Console';}"),
+tags$style(type="text/css", "#profileLabel {color:white;}"),
+tags$style(type="text/css", "#profile {font-family:'Lucida Console';}"),
 fluidRow(
   
   column(width = 5,
@@ -171,7 +171,7 @@ fluidRow(
   column(
     width = 4,
     #selectizeInput("searchRecord", label = NULL, choices = "")
-    span(style = "font-family:'Lucida Console'", uiOutput("searchBarWebsite"))
+    span(style = "font-family:'Lucida Console'", uiOutput("searchBarProfile"))
   )
   
 ),

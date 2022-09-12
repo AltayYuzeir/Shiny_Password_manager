@@ -16,7 +16,7 @@ reload_database_table = function(Master_Password, data_path){
     key <- openssl::sha256(passphrase)
     if(file.exists(paste0(path,"Database.ycpt"))){
       database = read.aes(paste0(path,"Database.ycpt"), key = key)
-      if( !all(colnames(database) == c("Website", "Login", "Password") ) )
+      if( !all(colnames(database) == c("Profile", "Login", "Password") ) )
       {
         new_datatable$Profile[1] = "Please provide correct"
         new_datatable$Login[1] = "Master password !"
@@ -28,7 +28,7 @@ reload_database_table = function(Master_Password, data_path){
           new_datatable$Login[1] = "in the Database !"
           return(new_datatable)
         } else{
-          new_datatable2 = database$Website[2:length(database$Website)]
+          new_datatable2 = database$Profile[2:length(database$Profile)]
           new_datatable3 = database$Login[2:length(database$Login)]
           new_datatable = as.data.frame(cbind(new_datatable2,new_datatable3))
           colnames(new_datatable) = c("Profile", "Login")
