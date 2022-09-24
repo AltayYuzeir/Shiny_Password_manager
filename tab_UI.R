@@ -6,7 +6,6 @@ p(),
 fluidRow(column(width = 9,
                 div(id = "masterPasswordLabel",passwordInput(inputId = "masterPassword",
                                                              label = "Master Password:",
-                                                             #placeholder = "EXample_M4ST3R!!!_p@ssw0rd;)",
                                                              placeholder = "3a2TR_3GG!!!_12land2;)",
                                                              width = "95%"
                 ))),
@@ -30,7 +29,6 @@ fluidRow(
                  style = "background:#ccccff;color:#404040;")
   ),
   column(
-    #offset = 2,
     width = 6,
     shinyjs::hidden(textInput("showhideMasterPasswordField", label = NULL)),
   ),
@@ -140,7 +138,6 @@ fluidRow(
                  style = "background:#ccccff;color:#404040;")
   ),
   column(
-    #offset = 1,
     width = 4,
     shinyjs::hidden(textInput("showhidePasswordField", label = NULL)),
   ),
@@ -188,7 +185,7 @@ fluidRow(
   ),
   column(
     width = 2,
-    actionButton("searchRecord",
+    actionButton("searchProfile",
                  "Search Profiles",
                  icon = icon("magnifying-glass"),
                  style = "background:#df9fbf;color:#404040;")
@@ -196,32 +193,36 @@ fluidRow(
   ),
   column(
     width = 4,
-    #selectizeInput("searchRecord", label = NULL, choices = "")
-    span(style = "font-family:'Lucida Console'", uiOutput("searchBarProfile"))
+    span(style = "font-family:'Lucida Console'", 
+         uiOutput("searchBarProfile")
+         
+         )
   )
   
 ),
-#p(),
 fluidRow(
   column(
     width = 2,
     offset = 2,
-    #p(),
-    uiOutput("confirmEditRecord")
+    shinyjs::hidden(actionButton("confirmEditRecord", "Confirm Edit", icon = icon("pen-clip"),
+                                 style = "background:#ff9933;color:#404040;margin-top:5px;"))
     
   ),
   column(
     width = 2,
     offset = 0,
-    #p(),
-    uiOutput("confirmDeleteRecord")
+    
+    shinyjs::hidden(actionButton("confirmDeleteRecord",
+                 "Confirm Delete", icon = icon("trash"),
+                 style = "background:#ff1a1a;color:#404040;margin-top:5px;"))
     
   ),
   
   column(
     width = 2,
     offset = 0,
-    uiOutput("searchLoginButton")
+    shinyjs::hidden(actionButton("searchLogin", "Search Logins", icon = icon("right-to-bracket"),
+                                 style = "background:#df9fbf;color:#404040;margin-top:5px;"))
     
   ),
   
@@ -246,27 +247,30 @@ fluidRow(
   column(
     width = 2,
     offset = 2,
-    #p(),
-    uiOutput("cancelEditRecord")
+    shinyjs::hidden(actionButton("cancelEditRecord", "Cancel Edit", icon = icon("ban"),
+                                 style = "background:#ccffcc;color:#404040;margin-top:5px;"))
     
   ),
   column(
     width = 2,
     offset = 0,
-    #p(),
-    uiOutput("cancelDeleteRecord")
-    
+    shinyjs::hidden(actionButton("cancelDeleteRecord",
+                                 "Cancel Delete", icon = icon("ban"),
+                                 style = "background:#ccffcc;color:#404040;margin-top:5px;"))
   ),
   column(
     width = 2,
     offset = 2,
-    uiOutput("loadRecordButton")
+   
+    shinyjs::hidden(actionButton("loadRecord", "Load Record", icon = icon("upload"),
+                                 style = "background:#df9fbf;color:#404040;margin-top:5px;"))
     
   ),
   column(
     width = 2,
-    uiOutput("closeSearchButton")
     
+    shinyjs::hidden(actionButton("closeSearch", "Close Search", icon = icon("circle-xmark"),
+                                 style = "background:#df9fbf;color:#404040;margin-top:5px;"))
   )
 ),
 tags$style(type='text/css', "button#closeSearch { margin-left: -10px; }"),
@@ -294,6 +298,5 @@ hr(),
 div(style="text-align:center; color: #80b3ff", tags$b("Copyright"),icon("copyright"),
     tags$b("2022-2022"),br(), tags$b("Altay Yuzeir")),
 br()
-#hr(),
 
 )

@@ -340,24 +340,15 @@ server = function(input, output, session) {
                        
                        if (nrow(for_deletion) == 0) {
                          shinyalert("No matches", "This record does not exist !", type = "info")
-                         shinyjs::hide("confirmDeleteRecordButton")
-                         shinyjs::hide("cancelDeleteRecordButton")
+                         shinyjs::hide("confirmDeleteRecord")
+                         shinyjs::hide("cancelDeleteRecord")
                          
                        }
                        else {
-                         output$confirmDeleteRecord = renderUI({
-                           actionButton("confirmDeleteRecordButton",
-                                        "Confirm Delete", icon = icon("trash"),
-                                        style = "background:#ff1a1a;color:#404040;margin-top:5px;")
-                           
-                           
-                         })
                          
-                         output$cancelDeleteRecord = renderUI({
-                           actionButton("cancelDeleteRecordButton",
-                                        "Cancel Delete", icon = icon("ban"),
-                                        style = "background:#ccffcc;color:#404040;margin-top:5px;")
-                         })
+                         shinyjs::show("confirmDeleteRecord")
+                         shinyjs::show("cancelDeleteRecord")
+                         
                        }
                        
                      }
@@ -369,15 +360,15 @@ server = function(input, output, session) {
                    }
                    else {
                      shinyalert("Alert", "This Encrypted database does not exist !", type = "error")
-                     shinyjs::hide("confirmDeleteRecordButton")
-                     shinyjs::hide("cancelDeleteRecordButton")
+                     shinyjs::hide("confirmDeleteRecord")
+                     shinyjs::hide("cancelDeleteRecord")
                      
                    }
                  }
                })
   
   #### Confirm Delete Record ----
-  observeEvent(input$confirmDeleteRecordButton, {
+  observeEvent(input$confirmDeleteRecord, {
     MasterPassword = input$masterPassword
     Profile = input$profile
     Login = input$login
@@ -402,8 +393,8 @@ server = function(input, output, session) {
           
           if (nrow(for_deletion) == 0) {
             shinyalert("No matches", "This record does not exist !", type = "info")
-            shinyjs::hide("confirmDeleteRecordButton")
-            shinyjs::hide("cancelDeleteRecordButton")
+            shinyjs::hide("confirmDeleteRecord")
+            shinyjs::hide("cancelDeleteRecord")
             
           }
           else {
@@ -412,8 +403,8 @@ server = function(input, output, session) {
             write.aes(database[-id,], paste0(path,"Database"), key = key)
             
             shinyalert("Success", "You have deleted this record !", type = "success")
-            shinyjs::hide("confirmDeleteRecordButton")
-            shinyjs::hide("cancelDeleteRecordButton")
+            shinyjs::hide("confirmDeleteRecord")
+            shinyjs::hide("cancelDeleteRecord")
             
             
             output$Database = renderDataTable({
@@ -437,15 +428,15 @@ server = function(input, output, session) {
       }
       else {
         shinyalert("Alert", "This Encrypted database does not exist !", type = "error")
-        shinyjs::hide("confirmDeleteRecordButton")
-        shinyjs::hide("cancelDeleteRecordButton")
+        shinyjs::hide("confirmDeleteRecord")
+        shinyjs::hide("cancelDeleteRecord")
         
       }
     }})
   #### Cancel Delete ----
-  observeEvent(input$cancelDeleteRecordButton,{
-    shinyjs::hide("confirmDeleteRecordButton")
-    shinyjs::hide("cancelDeleteRecordButton")
+  observeEvent(input$cancelDeleteRecord,{
+    shinyjs::hide("confirmDeleteRecord")
+    shinyjs::hide("cancelDeleteRecord")
   })
   
   #### Edit Record ----
@@ -473,20 +464,14 @@ server = function(input, output, session) {
           
           if (nrow(for_edit) == 0) {
             shinyalert("No matches", "This record does not exist !", type = "info")
-            shinyjs::hide("confirmEditRecordButton")
-            shinyjs::hide("cancelEditRecordButton")
+            shinyjs::hide("confirmEditRecord")
+            shinyjs::hide("cancelEditRecord")
             
           }
           else {
-            output$confirmEditRecord = renderUI({
-              actionButton("confirmEditRecordButton", "Confirm Edit", icon = icon("pen-clip"),
-                           style = "background:#ff9933;color:#404040;margin-top:5px;")
-            })
             
-            output$cancelEditRecord = renderUI({
-              actionButton("cancelEditRecordButton", "Cancel Edit", icon = icon("ban"),
-                           style = "background:#ccffcc;color:#404040;margin-top:5px;")
-            })
+            shinyjs::show("confirmEditRecord")
+            shinyjs::show("cancelEditRecord")
             
           }}
         
@@ -497,14 +482,14 @@ server = function(input, output, session) {
       }
       else {
         shinyalert("Alert", "This Encrypted database does not exist !", type = "error")
-        shinyjs::hide("confirmEditRecordButton")
-        shinyjs::hide("cancelEditRecordButton")
+        shinyjs::hide("confirmEditRecord")
+        shinyjs::hide("cancelEditRecord")
       }
     }
   })
   
   #### Confirm Edit Record ----
-  observeEvent(input$confirmEditRecordButton, {
+  observeEvent(input$confirmEditRecord, {
     MasterPassword = input$masterPassword
     Profile = input$profile
     Login = input$login
@@ -527,8 +512,8 @@ server = function(input, output, session) {
           
           if (nrow(for_edit) == 0) {
             shinyalert("No matches", "This record does not exist !", type = "info")
-            shinyjs::hide("confirmEditRecordButton")
-            shinyjs::hide("cancelEditRecordButton")
+            shinyjs::hide("confirmEditRecord")
+            shinyjs::hide("cancelEditRecord")
             
           }
           else {
@@ -543,8 +528,8 @@ server = function(input, output, session) {
             write.aes(database, paste0(path,"Database"),key = key)
             
             shinyalert("Success", "You have edited this record !", type = "success")
-            shinyjs::hide("confirmEditRecordButton")
-            shinyjs::hide("cancelEditRecordButton")
+            shinyjs::hide("confirmEditRecord")
+            shinyjs::hide("cancelEditRecord")
             
             output$Database = renderDataTable({
               reload_database_table(input$masterPassword, path)
@@ -565,19 +550,19 @@ server = function(input, output, session) {
       }
       else {
         shinyalert("Alert", "This Encrypted database does not exist !", type = "error")
-        shinyjs::hide("confirmEditRecordButton")
-        shinyjs::hide("cancelEditRecordButton")
+        shinyjs::hide("confirmEditRecord")
+        shinyjs::hide("cancelEditRecord")
         
       }
     }})
   #### Cancel Edit ----
-  observeEvent(input$cancelEditRecordButton,{
-    shinyjs::hide("confirmEditRecordButton")
-    shinyjs::hide("cancelEditRecordButton")
+  observeEvent(input$cancelEditRecord,{
+    shinyjs::hide("confirmEditRecord")
+    shinyjs::hide("cancelEditRecord")
   })
   
   #### Search Profile ----
-  observeEvent(input$searchRecord,{
+  observeEvent(input$searchProfile,{
     
     MasterPassword = input$masterPassword
     
@@ -607,10 +592,7 @@ server = function(input, output, session) {
                           selectize = T)
             })
             
-            output$searchLoginButton = renderUI({
-              actionButton("searchLogin", "Search Logins", icon = icon("right-to-bracket"),
-                           style = "background:#df9fbf;color:#404040;margin-top:5px;")
-            })
+            shinyjs::show("searchLogin")
             
             mode = input$masterPasswordOptions
             if(mode == "Keep") return()
@@ -651,15 +633,8 @@ server = function(input, output, session) {
           
         })
         
-        output$loadRecordButton = renderUI({
-          actionButton("loadRecord", "Load Record", icon = icon("upload"),
-                       style = "background:#df9fbf;color:#404040;margin-top:5px;")
-        })
-        
-        output$closeSearchButton = renderUI({
-          actionButton("closeSearch", "Close Search", icon = icon("circle-xmark"),
-                       style = "background:#df9fbf;color:#404040;margin-top:5px;")
-        })
+        shinyjs::show("loadRecord")
+        shinyjs::show("closeSearch")
         
         mode = input$masterPasswordOptions
         if(mode == "Keep") return()
@@ -801,7 +776,7 @@ server = function(input, output, session) {
     
     shinyjs::show(id = "randomUsername")
     shinyjs::show(id = "copyRandomUsername2clipboard")
-    shinyjs::show(id = "turnOffUsernameGenerator")
+    shinyjs::show(id = "turnOffUsername")
     shinyjs::show(id = "appendNum")
     
     updateTextInput(inputId = "randomUsername",
@@ -823,11 +798,7 @@ server = function(input, output, session) {
       )
     })
     
-    output$turnOffUsernameGenerator = renderUI({
-      actionButton("turnOffUsername", "Turn off Generator", icon = icon("power-off"),
-                   style = "background:#d2a679;color:#404040")
-    })
-    
+    shinyjs::show("turnOffUsername")
   })
   
   
@@ -837,7 +808,7 @@ server = function(input, output, session) {
     shinyjs::hide(id = "randomUsername")
     shinyjs::hide(id = "appendNum")
     shinyjs::hide(id = "copyRandomUsername2clipboard")
-    shinyjs::hide(id = "turnOffUsernameGenerator")
+    shinyjs::hide(id = "turnOffUsername")
     
   })
   
@@ -848,7 +819,7 @@ server = function(input, output, session) {
     
     shinyjs::show(id = "randomPassword")
     shinyjs::show(id = "copyRandomPassword2clipboard")
-    shinyjs::show(id = "turnOffPasswordGenerator")
+    shinyjs::show(id = "turnOffPassword")
     
     updateTextInput(inputId = "randomPassword",
                     value = pass)
@@ -864,10 +835,7 @@ server = function(input, output, session) {
       )
     })
     
-    output$turnOffPasswordGenerator = renderUI({
-      actionButton("turnOffPassword", "Turn off Generator", icon = icon("power-off"),
-                   style = "background:#d2a679;color:#404040")
-    })
+    shinyjs::show("turnOffPassword")
     
   })
   
@@ -876,7 +844,7 @@ server = function(input, output, session) {
     updateTextInput(inputId = "randomPassword", value = "")
     shinyjs::hide(id = "randomPassword")
     shinyjs::hide(id = "copyRandomPassword2clipboard")
-    shinyjs::hide(id = "turnOffPasswordGenerator")
+    shinyjs::hide(id = "turnOffPassword")
     
   })
   

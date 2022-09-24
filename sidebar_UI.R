@@ -75,7 +75,8 @@ fluidRow(
   ),
   column(
     width = 6,
-    uiOutput("turnOffUsernameGenerator")
+    shinyjs::hidden(actionButton("turnOffUsername", "Turn off Generator", icon = icon("power-off"),
+                                 style = "background:#d2a679;color:#404040"))
   )
   
 ),
@@ -118,7 +119,8 @@ fluidRow(
   ),
   column(
     width = 6,
-    uiOutput("turnOffPasswordGenerator")
+    shinyjs::hidden( actionButton("turnOffPassword", "Turn off Generator", icon = icon("power-off"),
+                                  style = "background:#d2a679;color:#404040"))
   )
   
 )
