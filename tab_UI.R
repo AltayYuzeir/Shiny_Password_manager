@@ -35,17 +35,43 @@ fluidRow(
     shinyjs::hidden(textInput("showhideMasterPasswordField", label = NULL)),
   ),
   column(
-    width = 2,
+    width = 1,
     actionButton("hideMasterPass",
                  "Hide",
                  icon = icon("eye-slash"),
                  style = "background:#ccccff;color:#404040;")
+  ),
+  
+  column(
+    width = 2,
+    actionButton("changeMasterPassword",
+                 "Change Master Pass",
+                 icon = icon("triangle-exclamation"),
+                 style = "background:#cc3300;color:#404040;")
   )
 ),
 tags$style(type='text/css', "input#showhideMasterPasswordField {font-family:'Lucida Console'; margin-bottom: -20px; margin-left: -50px; margin-right: 0px;width: 390px}"),
 tags$style(type='text/css', "button#hideMasterPass {  margin-left: -70px; }"),
-tags$style(type='text/css', "button#reloadButton {  margin-left: -60px; }"),
-
+tags$style(type="text/css", "#themeOptions {color:white;}"),
+p(),
+fluidRow(
+  column(width = 7,
+         shinyjs::hidden(textInput("newMasterPasswordField", label = NULL, width = "100%",
+                                   placeholder = "Enter new Master Password here"))
+         ),
+  column(width = 2,
+         shinyjs::hidden(actionButton("confirmNewMasterPass", "Confirm Change", 
+                                      icon = icon("check-double"),
+                                      style = "background:#669900;"))
+         ),
+  column(width = 2,
+         shinyjs::hidden(actionButton("cancelNewMasterPass", "Cancel Change",
+                                      icon = icon("ban"),
+                                      style = "background:#999966;"))
+  )
+  
+),
+tags$style(type='text/css', "button#cancelNewMasterPass { margin-left: 30px; }"),
 hr(),
 
 div(id = "profileLabel",textInput(inputId = "profile",

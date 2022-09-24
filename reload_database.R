@@ -14,8 +14,8 @@ reload_database_table = function(Master_Password, data_path){
     
     passphrase <- charToRaw(MasterPassword)
     key <- openssl::sha256(passphrase)
-    if(file.exists(paste0(path,"Database.ycpt"))){
-      database = read.aes(paste0(path,"Database.ycpt"), key = key)
+    if(file.exists(paste0(path,"Database"))){
+      database = read.aes(paste0(path,"Database"), key = key)
       if( !all(colnames(database) == c("Profile", "Login", "Password") ) )
       {
         new_datatable$Profile[1] = "Please provide correct"
