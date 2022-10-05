@@ -67,7 +67,10 @@ ui = fluidPage(
                            hr(),
                            
                            div(style="text-align:center; color: #80b3ff", tags$b("Copyright"),icon("copyright"),
-                               tags$b("2022-2022"),br(), tags$b("Altay Yuzeir")),
+                               tags$b("2022-2022"),br(), tags$b("Altay Yuzeir"),
+                               tags$a(href ="https://github.com/AltayYuzeir/Shiny_Password_manager",
+                                      tags$b(tags$span(style = "color: #80b3ff", icon("github"), "GitHub")),
+                                      target = "_blank")),
                            
                            icon = span(style = "color:#cc6699;font-weight:bold;",
                                        icon("table"))
