@@ -78,24 +78,37 @@ fluidRow(
                                            choices = c("Web account",
                                                        "Email",
                                                        "Credit card",
-                                                       "Wifi account",
+                                                       "Bank details",
+                                                       "Healthcare account",
+                                                       "Bills acount",
+                                                       "Tax account",
+                                                       "Pension account",
+                                                       "Insurance account",
                                                        "Streaming account",
                                                        "Gaming account",
                                                        "Shopping account",
-                                                       "Bank details",
+                                                       "Wifi account",
                                                        "Other"),
                                            selected = "Website"
                                            
          ))
   ),
-  column(width = 6,
+  column(width = 8,
 div(id = "profileLabel",textInput(inputId = "profile",
                                   label = "Enter Profile:",
                                   placeholder = "bubble.com"
                                   
 ))
 )
+# ,column(width = 3,
+#    div( id = "new_type",  
+#          actionButton(inputId = "new_type", 
+#                       label = "Add account type", 
+#                       icon = icon("plus")
+#                       )))
 ),
+#tags$style(type="text/css", "button#new_type { margin-left: 0px; margin-top:25px;}"),
+
 tags$style(type="text/css", "#typeLabel {color:white;}"),
 tags$style(type="text/css", ".selectize-input {font-family:'Lucida Console';} .selectize-dropdown {font-family:'Lucida Console';}"),
 tags$style(type="text/css", "#profileLabel {color:white;}"),
