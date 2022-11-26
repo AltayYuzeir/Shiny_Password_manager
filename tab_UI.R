@@ -74,7 +74,7 @@ hr(),
 fluidRow(
   column(width = 4,
          div(id = "typeLabel",selectInput(inputId = "type",
-                                           label = "Select entry type:",
+                                           label = "Select account type:",
                                            choices = c("Web account",
                                                        "Email",
                                                        "Credit card",
