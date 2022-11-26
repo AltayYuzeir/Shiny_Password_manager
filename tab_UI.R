@@ -81,6 +81,7 @@ fluidRow(
                                                        "Wifi account",
                                                        "Streaming account",
                                                        "Gaming account",
+                                                       "Shopping account",
                                                        "Bank details",
                                                        "Other"),
                                            selected = "Website"
