@@ -122,7 +122,7 @@ server = function(input, output, session) {
       key <- openssl::sha256(passphrase)
       if(file.exists(paste0(path,"Database"))){
         database = read.aes(paste0(path,"Database"), key = key)
-        if(!all(colnames(database) == c("Profile", "Login", "Password") )) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
+        if(!all(colnames(database) == c("Account_Type","Profile", "Login", "Password") )) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
         
         else {
           
@@ -155,7 +155,7 @@ server = function(input, output, session) {
       key <- openssl::sha256(passphrase)
       if(file.exists(paste0(path,"Database"))){
         database = read.aes(paste0(path,"Database"), key = key)
-        if(!all(colnames(database) == c("Profile", "Login", "Password") )) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
+        if(!all(colnames(database) == c("Account_Type","Profile", "Login", "Password") )) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
         
         else {
           
