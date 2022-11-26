@@ -247,6 +247,7 @@ server = function(input, output, session) {
   
   #### Save Record ----
   observeEvent(input$saveRecord, {
+    AccountType = input$type
     MasterPassword = input$masterPassword
     Profile = input$profile
     Login = input$login
@@ -268,11 +269,11 @@ server = function(input, output, session) {
         key <- openssl::sha256(passphrase)
         
         database = read.aes(paste0(path,"Database"), key = key)
-        if(!all(colnames(database) == c("Profile", "Login", "Password") )) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
+        if(!all(colnames(database) == c("Account_Type","Profile", "Login", "Password") )) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
         else {
           if(any(Profile == database$Profile) & any(Login == database$Login) ) shinyalert("Alert", "This records alredy exists !\n Profile and Login information is in Database !", type = "error")
           else {
-            record = c(Profile, Login, Password)
+            record = c(AccountType, Profile, Login, Password)
             database = rbind(database, record)
             
             write.aes(database, paste0(path,"Database"), key = key)
@@ -297,9 +298,9 @@ server = function(input, output, session) {
         key <- openssl::sha256(passphrase)
         
         database = data.frame(matrix(nrow = 0, ncol = 3))
-        database = cbind("------","------","------")
-        colnames(database) = c("Profile", "Login", "Password")
-        record = c(Profile, Login, Password)
+        database = cbind("------","------","------","------")
+        colnames(database) = c("Account_Type","Profile", "Login", "Password")
+        record = c(AccountType, Profile, Login, Password)
         database = rbind(database, record)
         
         write.aes(database, paste0(path,"Database"), key = key)
@@ -318,7 +319,7 @@ server = function(input, output, session) {
   #### Delete Record ----
   observeEvent(input$deleteRecord,
                {
-                 
+                 AccountType = input$type
                  MasterPassword = input$masterPassword
                  Profile = input$profile
                  Login = input$login
@@ -336,7 +337,7 @@ server = function(input, output, session) {
                    key <- openssl::sha256(passphrase)
                    if(file.exists(paste0(path,"Database"))){
                      database = read.aes(paste0(path,"Database"), key = key)
-                     if(!all(colnames(database) == c("Profile", "Login", "Password") )) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
+                     if(!all(colnames(database) == c("Account_Type","Profile", "Login", "Password") )) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
                      else {
                        
                        for_deletion = subset(database, Profile == input$profile & Login == input$login)
@@ -372,6 +373,7 @@ server = function(input, output, session) {
   
   #### Confirm Delete Record ----
   observeEvent(input$confirmDeleteRecord, {
+    AccountType = input$type
     MasterPassword = input$masterPassword
     Profile = input$profile
     Login = input$login
@@ -389,7 +391,7 @@ server = function(input, output, session) {
       key <- openssl::sha256(passphrase)
       if(file.exists(paste0(path,"Database"))){
         database = read.aes(paste0(path,"Database"), key = key)
-        if(!all(colnames(database) == c("Profile", "Login", "Password") )) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
+        if(!all(colnames(database) == c("Account_Type","Profile", "Login", "Password") )) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
         else {
           
           for_deletion = subset(database, Profile == input$profile & Login == input$login)
@@ -444,7 +446,7 @@ server = function(input, output, session) {
   
   #### Edit Record ----
   observeEvent(input$editRecord,{
-    
+    AccountType = input$type
     MasterPassword = input$masterPassword
     Profile = input$profile
     Login = input$login
@@ -461,7 +463,7 @@ server = function(input, output, session) {
       key <- openssl::sha256(passphrase)
       if(file.exists(paste0(path,"Database"))){
         database = read.aes(paste0(path,"Database"), key = key)
-        if(!all(colnames(database) == c("Profile", "Login", "Password") )) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
+        if(!all(colnames(database) == c("Account_Type","Profile", "Login", "Password") )) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
         else {
           for_edit <<- subset(database, Profile == input$profile & Login == input$login)
           
@@ -493,6 +495,7 @@ server = function(input, output, session) {
   
   #### Confirm Edit Record ----
   observeEvent(input$confirmEditRecord, {
+    AccountType = input$type
     MasterPassword = input$masterPassword
     Profile = input$profile
     Login = input$login
@@ -510,7 +513,7 @@ server = function(input, output, session) {
       key <- openssl::sha256(passphrase)
       if(file.exists(paste0(path,"Database"))){
         database = read.aes(paste0(path,"Database"), key = key)
-        if(!all(colnames(database) == c("Profile", "Login", "Password") )) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
+        if(!all(colnames(database) == c("Account_Type","Profile", "Login", "Password") )) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
         else {
           
           if (nrow(for_edit) == 0) {
@@ -520,14 +523,16 @@ server = function(input, output, session) {
             
           }
           else {
+            for_edit$AccountType = input$Account_Type
             for_edit$Profile = input$profile
             for_edit$Login = input$login
             for_edit$Password = input$password
             id <- as.numeric(rownames(for_edit))
             database[id,] = for_edit
-            for_edit$Profile <<- "I"
-            for_edit$Login <<- "love"
-            for_edit$Password <<- "YuPass !"
+            for_edit$AccountType <<- "I"
+            for_edit$Profile <<- "love"
+            for_edit$Login <<- "YuPass"
+            for_edit$Password <<- "!"
             write.aes(database, paste0(path,"Database"),key = key)
             
             shinyalert("Success", "You have edited this record !", type = "success")
@@ -578,7 +583,7 @@ server = function(input, output, session) {
       key <- openssl::sha256(passphrase)
       if(file.exists(paste0(path,"Database"))){
         database = read.aes(paste0(path,"Database"), key = key)
-        if(!all(colnames(database) == c("Profile", "Login", "Password") )) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
+        if(!all(colnames(database) == c("Account_Type","Profile", "Login", "Password") )) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
         else {
           if(nrow(database) == 1) shinyalert("Alert", "Encrypted Database is empty !\n No records are present in the Database !", type = "error")
           else{
@@ -619,7 +624,7 @@ server = function(input, output, session) {
       key <- openssl::sha256(passphrase)
       
       database = read.aes(paste0(path,"Database"), key = key)
-      if(!all(colnames(database) == c("Profile", "Login", "Password") )) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
+      if(!all(colnames(database) == c("Account_Type","Profile", "Login", "Password") )) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
       else {
         logins = subset(database, Profile == input$searchProfileField)
         logins = logins$Login
@@ -666,13 +671,16 @@ server = function(input, output, session) {
       key <- openssl::sha256(passphrase)
       
       database = read.aes(paste0(path,"Database"), key = key)
-      if(!all(colnames(database) == c("Profile", "Login", "Password") )) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
+      if(!all(colnames(database) == c("Account_Type","Profile", "Login", "Password") )) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
       else {
-        password = subset(database, Profile == input$searchProfileField & 
-                            Login == input$searchLoginField)
-        password = password$Password
+        to_load = subset(database, Profile == input$searchProfileField & 
+                           Login == input$searchLoginField)
+        password = to_load$Password
+        account = to_load$Account_Type
         updateTextInput(inputId = "password",
                         value = password)
+        updateSelectInput(inputId = "type",
+                          selected = account)
       }}
   })
   
@@ -730,7 +738,7 @@ server = function(input, output, session) {
       key <- openssl::sha256(passphrase)
       
       database = read.aes(paste0(path,"Database"), key = key)
-      if(!all(colnames(database) == c("Profile", "Login", "Password") )) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
+      if(!all(colnames(database) == c("Account_Type","Profile", "Login", "Password") )) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
       else {
         database = unique(database)
         write.aes(database, paste0(path,"Database"), key=key)

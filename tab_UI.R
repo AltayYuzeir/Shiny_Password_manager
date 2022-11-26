@@ -45,7 +45,7 @@ fluidRow(
     actionButton("changeMasterPassword",
                  "Change Master Pass",
                  icon = icon("triangle-exclamation"),
-                 style = "background:#cc3300;color:#404040;")
+                 style = "background:#666699;color:white;")
   )
 ),
 tags$style(type='text/css', "input#showhideMasterPasswordField {font-family:'Lucida Console'; margin-bottom: -20px; margin-left: -50px; margin-right: 0px;width: 390px}"),
@@ -71,12 +71,32 @@ fluidRow(
 ),
 tags$style(type='text/css', "button#cancelNewMasterPass { margin-left: 30px; }"),
 hr(),
-
+fluidRow(
+  column(width = 4,
+         div(id = "typeLabel",selectInput(inputId = "type",
+                                           label = "Select entry type:",
+                                           choices = c("Web account",
+                                                       "Email",
+                                                       "Credit card",
+                                                       "Wifi account",
+                                                       "Streaming account",
+                                                       "Gaming account",
+                                                       "Bank details",
+                                                       "Other"),
+                                           selected = "Website"
+                                           
+         ))
+  ),
+  column(width = 6,
 div(id = "profileLabel",textInput(inputId = "profile",
-                                  label = "Profile (website/credit card/other accounts):",
+                                  label = "Enter Profile:",
                                   placeholder = "bubble.com"
                                   
-)),
+))
+)
+),
+tags$style(type="text/css", "#typeLabel {color:white;}"),
+tags$style(type="text/css", ".selectize-input {font-family:'Lucida Console';} .selectize-dropdown {font-family:'Lucida Console';}"),
 tags$style(type="text/css", "#profileLabel {color:white;}"),
 tags$style(type="text/css", "#profile {font-family:'Lucida Console';}"),
 fluidRow(
@@ -86,7 +106,7 @@ fluidRow(
            id = "loginLabel",
            textInput(
              inputId = "login",
-             label = "Login (username/email/phone number):",
+             label = "Enter Login:",
              placeholder = "SlowGenomics1337"
              
            )
@@ -112,7 +132,7 @@ tags$style(type="text/css", "#login2clipboard {margin-top:25px;}"),
 fluidRow(
   column(width = 7,
          div(id ="passwordLabel",passwordInput(inputId = "password",
-                                               label = "Password:",
+                                               label = "Enter Password:",
                                                placeholder = "D1r7D3v1LChub8yB3rRy",
                                                width = "100%"
                                                
