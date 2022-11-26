@@ -7,8 +7,9 @@ What I like about YuPass is that you always know where your encrypted databse is
 I have worked on this project in my free time to help me out improve my R and Shiny skills and knowledge.\
 I could not find a usable password manager written in R and Shiny, so I decided to try and build one :)
 
-Current version v1.2
+Current version v1.3
 - Websites and Logins can easily be browsed in the _*Database Table*_ tab (Master Password needed) 🔥**NEW**🔥
+- The user can choose a Profile category from a list 🔥**NEW**🔥
 
 <img src="user_interface_ui.png" align="center" width=100% height=400 alt="" />
 <img src="user_interface_table.png" align="center" width=100% height=400 alt="" />
