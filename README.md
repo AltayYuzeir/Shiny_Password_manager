@@ -30,21 +30,21 @@ Option 2: Hosted online, e.g. shinyapps.io (NOT Recommended !)
 3. You will need to modify the code a bit. You will need the special functions for reading the encrypted database from Dropbox _drop_read.aes_ by providing the database filename, encryption key and Dropbox access token. Once you have done changes to the database, you create file in the virtual environment with _write.aes_ function and you upload it to Dropbox with _drop_upload_ by providing name and Dropbox token.
 
 # User manual (same as the in-app one)
-1. Input Your Master Password to access the encrypted Database. Master Password is needed for every operation!
+ 1. Input Your Master Password to access the encrypted Database. Master Password is needed for every operation!
 2. You can Keep the Master Passward continuously, or Clear it after every operation.
 3. Encrypeted database will be created together with the first Record you provide.
-4. You can Edit a Record by providing Website and Login. You select Record to be edited and press Edit. You can change Website, Login and Password and then you need to Confirm the Edit procedure.
-5. You can Delete a Record by providing Website and Login. You need to confirm the Delete procedure.
-6. You can Search for Website in the Database. You can Delete and Type inside the Search field.
-7. You can Search for Logins of the chosen Website.
+4. You can Edit a Record by providing Profile and Login. You select Record to be edited and press Edit. You can change Profile, Login and Password and then you need to Confirm the Edit procedure.
+5. You can Delete a Record by providing Profile and Login. You need to confirm the Delete procedure.
+6. You can Search for Profiles in the Database. You can Delete and Type inside the Search field.
+7. You can Search for Logins of the chosen Profile.
 8. You can Load the Record to visualize the Password.
 9. You can Close the Search section afterwards.
 10. You can Download the Encrypted Database.
 11. You can Remove the Duplicates from the Encrypted Database.
 12. You can use the Random Username Generator and the Random Password Generator to help you out.
 13. You can Generate many different Usernames and add Number at the end if you desire.
-14. You can Generate Passwords only with Letters and Numbers, or it can also contain Special characters.
-15. All Fields are displayed in a special font to improve readability between symbols such 0 (digit zero) and O (upper case o), and I (upper case i) and l (lower case L). 
+14. You can Generate Passwords only with Letters and Numbers, or they can also contain Special characters.
+15. All Fields are displayed in a special font to improve readability between symbols such 0 (digit zero) and O (upper case o), and I (upper case i) and l (lower case L).
 
 # Acknowledgements and my thanks
 1. To the creators of the [EncryptDF](https://git.doit.wisc.edu/lsaim/EncryptDF) package, which build borrows code from Stackoverflow comment from [jlhoward](https://stackoverflow.com/questions/25318800/how-do-i-read-an-encrypted-file-from-disk-with-r). I have modified their code a bit for our purposes. Thanks to them we have the backbone of the our app - the encrypted password database.
