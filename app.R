@@ -24,6 +24,21 @@ path = paste0(path, "/YuPass_Password_Manager/")
 word_bank = words::words
 if(!dir.exists(path)) dir.create(path)
 
+categories = c("Web account",
+               "Email",
+               "Credit card",
+               "Bank details",
+               "Healthcare account",
+               "Bills acount",
+               "Tax account",
+               "Pension account",
+               "Insurance account",
+               "Streaming account",
+               "Gaming account",
+               "Shopping account",
+               "Wifi account",
+               "Other")
+
 #### UI ----
 ui = fluidPage(   
   
@@ -191,6 +206,31 @@ server = function(input, output, session) {
     shinyjs::hide("newMasterPasswordField")
     shinyjs::hide("confirmNewMasterPass")
     shinyjs::hide("cancelNewMasterPass")
+  })
+  
+  #### Add new account type ----
+  observeEvent(input$new_type,{
+    shinyjs::show("addNewTypeLabel")
+    shinyjs::show("confirmNewType")
+    shinyjs::show("cancelNewType")
+  })
+  
+  observeEvent(input$cancelNewType,{
+    shinyjs::hide("addNewTypeLabel")
+    shinyjs::hide("confirmNewType")
+    shinyjs::hide("cancelNewType")
+  })
+  
+  observeEvent(input$confirmNewType,{
+    new_type = input$addNewType
+    if(is_empty_input(new_type)) shinyalert("Alert", "Please input new account type !", type = "error")
+    else {
+      categories = c(categories, new_type)
+      updateSelectInput(inputId = "type", choices = categories, 
+                        selected = new_type)
+      shinyalert("Success", "You added new non-permanent account type !", type = "success")
+      
+    }
   })
   
   #### Show-Hide Password ----

@@ -93,26 +93,44 @@ fluidRow(
                                            
          ))
   ),
-  column(width = 8,
+  column(width = 5,
 div(id = "profileLabel",textInput(inputId = "profile",
                                   label = "Enter Profile:",
                                   placeholder = "bubble.com"
                                   
 ))
 )
-# ,column(width = 3,
-#    div( id = "new_type",  
-#          actionButton(inputId = "new_type", 
-#                       label = "Add account type", 
-#                       icon = icon("plus")
-#                       )))
+,column(width = 2,
+   div( id = "new_type",
+         actionButton(inputId = "new_type",
+                      label = "Add account type",
+                      icon = icon("plus"),
+                      style = "background:#ffcc99;color:#404040;"
+                      )))
 ),
-#tags$style(type="text/css", "button#new_type { margin-left: 0px; margin-top:25px;}"),
+tags$style(type="text/css", "button#new_type { margin-left: 0px; margin-top:25px;}"),
 
 tags$style(type="text/css", "#typeLabel {color:white;}"),
 tags$style(type="text/css", ".selectize-input {font-family:'Lucida Console';} .selectize-dropdown {font-family:'Lucida Console';}"),
 tags$style(type="text/css", "#profileLabel {color:white;}"),
 tags$style(type="text/css", "#profile {font-family:'Lucida Console';}"),
+fluidRow(
+  column(width = 6,
+         shinyjs::hidden(div(id = "addNewTypeLabel", textInput("addNewType", "Enter new type: (Non-persistent)",
+                   placeholder = "Personal account")))),
+  column(width = 3,
+         shinyjs::hidden(actionButton("confirmNewType", "Confirm new type", 
+                                      icon = icon("check"), style = "background:#ccff99;color:#404040;"))),
+  column(width = 3,
+         shinyjs::hidden(actionButton("cancelNewType", "Cancel new type",
+                                      icon = icon("ban"), style = "background:#ff9999;color:#404040;")))
+  
+),
+tags$style(type="text/css", "#addNewTypeLabel {color:white;}"),
+tags$style(type="text/css", "#addNewType {font-family:'Lucida Console';}"),
+tags$style(type="text/css", "button#confirmNewType { margin-left: -100px; margin-top:25px;}"),
+tags$style(type="text/css", "button#cancelNewType { margin-left: -140px; margin-top:25px;}"),
+
 fluidRow(
   
   column(width = 5,
