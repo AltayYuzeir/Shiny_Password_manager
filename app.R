@@ -24,20 +24,20 @@ path = paste0(path, "/YuPass_Password_Manager/")
 word_bank = words::words
 if(!dir.exists(path)) dir.create(path)
 
-categories = c("Web account",
-               "Email",
-               "Credit card",
-               "Bank details",
-               "Healthcare account",
-               "Bills acount",
-               "Tax account",
-               "Pension account",
-               "Insurance account",
-               "Streaming account",
-               "Gaming account",
-               "Shopping account",
-               "Wifi account",
-               "Other")
+categories <<- c("Web account",
+                 "Email",
+                 "Credit card",
+                 "Bank details",
+                 "Healthcare account",
+                 "Bills acount",
+                 "Tax account",
+                 "Pension account",
+                 "Insurance account",
+                 "Streaming account",
+                 "Gaming account",
+                 "Shopping account",
+                 "Wifi account",
+                 "Other")
 
 #### UI ----
 ui = fluidPage(   
@@ -216,6 +216,7 @@ server = function(input, output, session) {
   })
   
   observeEvent(input$cancelNewType,{
+    updateTextInput(inputId = "addNewType", value = "")
     shinyjs::hide("addNewTypeLabel")
     shinyjs::hide("confirmNewType")
     shinyjs::hide("cancelNewType")
@@ -225,10 +226,11 @@ server = function(input, output, session) {
     new_type = input$addNewType
     if(is_empty_input(new_type)) shinyalert("Alert", "Please input new account type !", type = "error")
     else {
-      categories = c(categories, new_type)
+      categories <<- c(categories, new_type)
       updateSelectInput(inputId = "type", choices = categories, 
                         selected = new_type)
       shinyalert("Success", "You added new non-permanent account type !", type = "success")
+      updateTextInput(inputId = "addNewType", value = "")
       shinyjs::hide("addNewTypeLabel")
       shinyjs::hide("confirmNewType")
       shinyjs::hide("cancelNewType")
@@ -858,6 +860,7 @@ server = function(input, output, session) {
   #### Turn off Username Generator ----
   observeEvent(input$turnOffUsername,{
     updateTextInput(inputId = "randomUsername", value = "")
+    updateTextInput(inputId = "appendNum", value = "")
     shinyjs::hide(id = "randomUsername")
     shinyjs::hide(id = "appendNum")
     shinyjs::hide(id = "copyRandomUsername2clipboard")
