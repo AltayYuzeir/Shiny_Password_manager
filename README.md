@@ -8,7 +8,7 @@ I have worked on this project in my free time to help me out improve my R and Sh
 I could not find a usable password manager written in R and Shiny, so I decided to try and build one :)
 
 Current version v1.2
-- Websites and Logins can easily be browsed in the _*Database Table*_ tab (Master Password needed) 🔥**NEW**🔥
+- Websites and Profiles can easily be browsed in the _*Database Table*_ tab (Master Password needed) 🔥**NEW**🔥
 - You can now choose a Profile category from a list _and_ add your own categories 🔥**NEW**🔥
 
 <img src="user_interface_ui.png" align="center" width=100% height=400 alt="" />
