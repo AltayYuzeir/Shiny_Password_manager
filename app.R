@@ -229,7 +229,9 @@ server = function(input, output, session) {
       updateSelectInput(inputId = "type", choices = categories, 
                         selected = new_type)
       shinyalert("Success", "You added new non-permanent account type !", type = "success")
-      
+      shinyjs::hide("addNewTypeLabel")
+      shinyjs::hide("confirmNewType")
+      shinyjs::hide("cancelNewType")
     }
   })
   
