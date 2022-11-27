@@ -16,16 +16,16 @@ user_manual =  HTML(
       span("3. Encrypeted database will be created together with the first Record you provide.", style = style)
     ),
     tags$em(
-      span("4. You can Edit a Record by providing Website and Login. You select Record to be edited and press Edit. You can change Website, Login and Password and then you need to Confirm the Edit procedure.", style = style)
+      span("4. You can Edit a Record by providing Profile and Login. You select Record to be edited and press Edit. You can change Profile, Login and Password and then you need to Confirm the Edit procedure.", style = style)
     ),
     tags$em(
-      span("5. You can Delete a Record by providing Website and Login. You need to confirm the Delete procedure.", style = style)
+      span("5. You can Delete a Record by providing Profile and Login. You need to confirm the Delete procedure.", style = style)
     ),
     tags$em(
-      span("6. You can Search for Website in the Database. You can Delete and Type inside the Search field.", style = style)
+      span("6. You can Search for Profiles in the Database. You can Delete and Type inside the Search field.", style = style)
     ),
     tags$em(
-      span("7. You can Search for Logins of the chosen Website.", style = style)
+      span("7. You can Search for Logins of the chosen Profile.", style = style)
     ),
     tags$em(
       span("8. You can Load the Record to visualize the Password.", style = style)
@@ -46,7 +46,7 @@ user_manual =  HTML(
       span("13. You can Generate many different Usernames and add Number at the end if you desire.", style = style)
     ),
     tags$em(
-      span("14. You can Generate Passwords only with Letters and Numbers, or it can also contain Special characters.", style = style)
+      span("14. You can Generate Passwords only with Letters and Numbers, or they can also contain Special characters.", style = style)
     ),
     tags$em(
       span("15. All Fields are displayed in a special font to improve readability between symbols such 0 (digit zero) and O (upper case o), and I (upper case i) and l (lower case L).", style = style)
