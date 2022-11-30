@@ -9,7 +9,7 @@ I could not find a usable password manager written in R and Shiny, so I decided 
 
 Current version v1.2
 - Profiles and Logins can easily be browsed in the _*Database Table*_ tab (Master Password needed) 🔥**NEW**🔥
-- You can now choose a Profile category from a list _and_ add your own categories 🔥**NEW**🔥
+- You can now choose a Profile category from a list _and_ add your own categories (non-persistent) 🔥**NEW**🔥
 
 <img src="user_interface_ui.png" align="center" width=100% height=400 alt="" />
 <img src="user_interface_table.png" align="center" width=100% height=400 alt="" />
