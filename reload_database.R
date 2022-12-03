@@ -1,10 +1,13 @@
 
 reload_database_table = function(Master_Password, data_path){
+  
   path = data_path
   new_datatable = matrix(nrow = 1, ncol = 3)
   new_datatable = data.frame(new_datatable)
   colnames(new_datatable) = c("Account_Type","Profile", "Login")
   MasterPassword = Master_Password
+  if(file.exists(paste0(path,"Database"))){
+  
   if(is_empty_input(MasterPassword))
   {
     new_datatable$Account_Type[1] = "Error:"
@@ -15,7 +18,7 @@ reload_database_table = function(Master_Password, data_path){
     
     passphrase <- charToRaw(MasterPassword)
     key <- openssl::sha256(passphrase)
-    if(file.exists(paste0(path,"Database"))){
+  
       database = read.aes(paste0(path,"Database"), key = key)
       if( !all(colnames(database) == c("Account_Type","Profile", "Login", "Password") ) )
       {
@@ -39,12 +42,12 @@ reload_database_table = function(Master_Password, data_path){
           return(new_datatable)
         }
       }
-    } else
+    }} else
     {
       new_datatable$Account_Type[1] = "Error:"
       new_datatable$Profile[1] = "Encrypted Database"
       new_datatable$Login[1] = "does not exist !"
       return(new_datatable)
     }
-  }
+  
 }

@@ -128,14 +128,14 @@ server = function(input, output, session) {
   observeEvent(input$changeMasterPassword,{
     
     MasterPassword = input$masterPassword
-    
-    if ( is_empty_input(MasterPassword)
-    ) shinyalert("Alert", "Please fill out all fields: \n Master Password !", type = "error")
-    else{
-      
-      passphrase <- charToRaw(MasterPassword)
-      key <- openssl::sha256(passphrase)
-      if(file.exists(paste0(path,"Database"))){
+    if(file.exists(paste0(path,"Database"))){
+      if ( is_empty_input(MasterPassword)
+      ) shinyalert("Alert", "Please fill out all fields: \n Master Password !", type = "error")
+      else{
+        
+        passphrase <- charToRaw(MasterPassword)
+        key <- openssl::sha256(passphrase)
+        
         database = read.aes(paste0(path,"Database"), key = key)
         if(!all(colnames(database) == c("Account_Type","Profile", "Login", "Password") )) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
         
@@ -151,26 +151,27 @@ server = function(input, output, session) {
         if(mode == "Keep") return()
         else updateTextInput(inputId = "masterPassword", value = "")
         #shinyjs::hide("showhideMasterPasswordField")
-      }
-      else {
-        shinyalert("Alert", "This Encrypted database does not exist !", type = "error")
       }}
+    else {
+      shinyalert("Alert", "This Encrypted database does not exist !", type = "error")
+    }
     
   })
   
   observeEvent(input$confirmNewMasterPass,{
     
     MasterPassword = input$masterPassword
-    
-    if ( is_empty_input(MasterPassword)
-    ) shinyalert("Alert", "Please fill out all fields: \n Master Password !", type = "error")
-    else{
-      
-      passphrase <- charToRaw(MasterPassword)
-      key <- openssl::sha256(passphrase)
-      if(file.exists(paste0(path,"Database"))){
+    if(file.exists(paste0(path,"Database"))){
+      if ( is_empty_input(MasterPassword)
+      ) shinyalert("Alert", "Please fill out all fields: \n Master Password !", type = "error")
+      else{
+        
+        passphrase <- charToRaw(MasterPassword)
+        key <- openssl::sha256(passphrase)
+        
         database = read.aes(paste0(path,"Database"), key = key)
-        if(!all(colnames(database) == c("Account_Type","Profile", "Login", "Password") )) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
+        if(!all(colnames(database) == c("Account_Type","Profile", "Login", "Password") )) 
+          shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
         
         else {
           
@@ -179,6 +180,7 @@ server = function(input, output, session) {
           
           write.aes(database, paste0(path,"Database"), key = new_key)
           updateTextInput(inputId = "masterPassword", value = "")
+          updateTextInput(inputId = "newMasterPasswordField", value = "")
           
           shinyalert("Success", "Master Password was \nsuccessfully changed !", type = "success")
           
@@ -192,13 +194,13 @@ server = function(input, output, session) {
         if(mode == "Keep") return()
         else updateTextInput(inputId = "masterPassword", value = "")
         #shinyjs::hide("showhideMasterPasswordField")
-      }
-      else {
-        shinyalert("Alert", "This Encrypted database does not exist !", type = "error")
-        shinyjs::hide("newMasterPasswordField")
-        shinyjs::hide("confirmNewMasterPass")
-        shinyjs::hide("cancelNewMasterPass")
       }}
+    else {
+      shinyalert("Alert", "This Encrypted database does not exist !", type = "error")
+      shinyjs::hide("newMasterPasswordField")
+      shinyjs::hide("confirmNewMasterPass")
+      shinyjs::hide("cancelNewMasterPass")
+    }
     
   })
   
@@ -296,24 +298,24 @@ server = function(input, output, session) {
     Profile = input$profile
     Login = input$login
     Password = input$password
-    
-    if (
-      is_empty_input(MasterPassword) |
-      is_empty_input(Profile) |
-      is_empty_input(Login) |
-      is_empty_input(Password)
+    ###############
+    if(file.exists(paste0(path,"Database"))){
       
-      
-    ) shinyalert("Alert", "Please fill out all fields: \n Master Password, Profile, Login and Password !", type = "error")
-    else{
-      
-      if(file.exists(paste0(path,"Database"))){
+      if (
+        is_empty_input(MasterPassword) |
+        is_empty_input(Profile) |
+        is_empty_input(Login) |
+        is_empty_input(Password)
+        
+      ) shinyalert("Alert", "Please fill out all fields: \n Master Password, Profile, Login and Password !", type = "error")
+      else{
         
         passphrase <- charToRaw(MasterPassword)
         key <- openssl::sha256(passphrase)
         
         database = read.aes(paste0(path,"Database"), key = key)
-        if(!all(colnames(database) == c("Account_Type","Profile", "Login", "Password") )) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
+        if(!all(colnames(database) == c("Account_Type","Profile", "Login", "Password") )) 
+          shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
         else {
           if(any(Profile == database$Profile) & any(Login == database$Login) ) shinyalert("Alert", "This records alredy exists !\n Profile and Login information is in Database !", type = "error")
           else {
@@ -334,30 +336,49 @@ server = function(input, output, session) {
             shinyjs::hide(id = "loadRecord")
             shinyjs::hide(id = "closeSearch") 
             
-          }}
-        
-      } else {
-        
-        passphrase <- charToRaw(MasterPassword)
-        key <- openssl::sha256(passphrase)
-        
-        database = data.frame(matrix(nrow = 0, ncol = 3))
-        database = cbind("------","------","------","------")
-        colnames(database) = c("Account_Type","Profile", "Login", "Password")
-        record = c(AccountType, Profile, Login, Password)
-        database = rbind(database, record)
-        
-        write.aes(database, paste0(path,"Database"), key = key)
-        shinyalert("Success", "You have created new \n Encrypted password database !", type = "success")
-      }
-      
-      mode = input$masterPasswordOptions
-      if(mode == "Keep") return()
-      else updateTextInput(inputId = "masterPassword", value = "")
-      #shinyjs::hide("showhideMasterPasswordField")
-      
-      
-    }
+            mode = input$masterPasswordOptions
+            if(mode == "Keep") return()
+            else updateTextInput(inputId = "masterPassword", value = "")
+            #shinyjs::hide("showhideMasterPasswordField")
+            
+          }}}} else {
+            
+            if (
+              is_empty_input(MasterPassword) |
+              is_empty_input(Profile) |
+              is_empty_input(Login) |
+              is_empty_input(Password)
+              
+            ) shinyalert("Alert", "Please fill out all fields: \n Master Password, Profile, Login and Password !", type = "error")
+            else {
+              passphrase <- charToRaw(MasterPassword)
+              key <- openssl::sha256(passphrase)
+              
+              database = data.frame(matrix(nrow = 0, ncol = 3))
+              database = cbind("------","------","------","------")
+              colnames(database) = c("Account_Type","Profile", "Login", "Password")
+              record = c(AccountType, Profile, Login, Password)
+              database = rbind(database, record)
+              
+              write.aes(database, paste0(path,"Database"), key = key)
+              shinyalert("Success", "You have created new \n Encrypted password database !", type = "success")
+              
+              output$Database = renderDataTable({
+                reload_database_table(input$masterPassword, path)
+              })
+              
+              shinyjs::hide(id = "searchProfileField")
+              shinyjs::hide(id = "searchLogin")
+              shinyjs::hide(id = "searchLoginField")
+              shinyjs::hide(id = "loadRecord")
+              shinyjs::hide(id = "closeSearch") 
+              
+              mode = input$masterPasswordOptions
+              if(mode == "Keep") return()
+              else updateTextInput(inputId = "masterPassword", value = "")
+              
+            }}
+    
   })
   
   #### Delete Record ----
@@ -368,18 +389,18 @@ server = function(input, output, session) {
                  Profile = input$profile
                  Login = input$login
                  Password = input$password
-                 
-                 if ( is_empty_input(MasterPassword) |
-                      is_empty_input(Profile) |
-                      is_empty_input(Login) |
-                      is_empty_input(Password)
-                      
-                 ) shinyalert("Alert", "Please fill out all fields: \n Master Password, Profile and Login !", type = "error")
-                 else{
-                   
-                   passphrase <- charToRaw(MasterPassword)
-                   key <- openssl::sha256(passphrase)
-                   if(file.exists(paste0(path,"Database"))){
+                 if(file.exists(paste0(path,"Database"))){  
+                   if ( is_empty_input(MasterPassword) |
+                        is_empty_input(Profile) |
+                        is_empty_input(Login) |
+                        is_empty_input(Password)
+                        
+                   ) shinyalert("Alert", "Please fill out all fields: \n Master Password, Profile and Login !", type = "error")
+                   else{
+                     
+                     passphrase <- charToRaw(MasterPassword)
+                     key <- openssl::sha256(passphrase)
+                     
                      database = read.aes(paste0(path,"Database"), key = key)
                      if(!all(colnames(database) == c("Account_Type","Profile", "Login", "Password") )) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
                      else {
@@ -405,13 +426,11 @@ server = function(input, output, session) {
                      if(mode == "Keep") return()
                      else updateTextInput(inputId = "masterPassword", value = "")
                      #shinyjs::hide("showhideMasterPasswordField")
-                   }
-                   else {
-                     shinyalert("Alert", "This Encrypted database does not exist !", type = "error")
-                     shinyjs::hide("confirmDeleteRecord")
-                     shinyjs::hide("cancelDeleteRecord")
-                     
-                   }
+                   } }
+                 else {
+                   shinyalert("Alert", "This Encrypted database does not exist !", type = "error")
+                   shinyjs::hide("confirmDeleteRecord")
+                   shinyjs::hide("cancelDeleteRecord")
                  }
                })
   
@@ -422,18 +441,18 @@ server = function(input, output, session) {
     Profile = input$profile
     Login = input$login
     Password = input$password
-    
-    if ( is_empty_input(MasterPassword) |
-         is_empty_input(Profile) |
-         is_empty_input(Login) |
-         is_empty_input(Password)
-         
-    ) shinyalert("Alert", "Please fill out all fields: \n Master Password, Profile and Login !", type = "error")
-    else{
-      
-      passphrase <- charToRaw(MasterPassword)
-      key <- openssl::sha256(passphrase)
-      if(file.exists(paste0(path,"Database"))){
+    if(file.exists(paste0(path,"Database"))){
+      if ( is_empty_input(MasterPassword) |
+           is_empty_input(Profile) |
+           is_empty_input(Login) |
+           is_empty_input(Password)
+           
+      ) shinyalert("Alert", "Please fill out all fields: \n Master Password, Profile and Login !", type = "error")
+      else{
+        
+        passphrase <- charToRaw(MasterPassword)
+        key <- openssl::sha256(passphrase)
+        
         database = read.aes(paste0(path,"Database"), key = key)
         if(!all(colnames(database) == c("Account_Type","Profile", "Login", "Password") )) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
         else {
@@ -474,14 +493,14 @@ server = function(input, output, session) {
         if(mode == "Keep") return()
         else updateTextInput(inputId = "masterPassword", value = "")
         #shinyjs::hide("showhideMasterPasswordField")
-      }
-      else {
-        shinyalert("Alert", "This Encrypted database does not exist !", type = "error")
-        shinyjs::hide("confirmDeleteRecord")
-        shinyjs::hide("cancelDeleteRecord")
-        
-      }
-    }})
+      }}
+    else {
+      shinyalert("Alert", "This Encrypted database does not exist !", type = "error")
+      shinyjs::hide("confirmDeleteRecord")
+      shinyjs::hide("cancelDeleteRecord")
+      
+    }
+  })
   #### Cancel Delete ----
   observeEvent(input$cancelDeleteRecord,{
     shinyjs::hide("confirmDeleteRecord")
@@ -495,17 +514,17 @@ server = function(input, output, session) {
     Profile = input$profile
     Login = input$login
     Password = input$password
-    
-    if ( is_empty_input(MasterPassword) |
-         is_empty_input(Profile) |
-         is_empty_input(Login) |
-         is_empty_input(Password)
-         
-    ) shinyalert("Alert", "Please fill out all fields: \n Master Password, Profile, Login and Password !", type = "error")
-    else{
-      passphrase <- charToRaw(MasterPassword)
-      key <- openssl::sha256(passphrase)
-      if(file.exists(paste0(path,"Database"))){
+    if(file.exists(paste0(path,"Database"))){
+      if ( is_empty_input(MasterPassword) |
+           is_empty_input(Profile) |
+           is_empty_input(Login) |
+           is_empty_input(Password)
+           
+      ) shinyalert("Alert", "Please fill out all fields: \n Master Password, Profile, Login and Password !", type = "error")
+      else{
+        passphrase <- charToRaw(MasterPassword)
+        key <- openssl::sha256(passphrase)
+        
         database = read.aes(paste0(path,"Database"), key = key)
         if(!all(colnames(database) == c("Account_Type","Profile", "Login", "Password") )) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
         else {
@@ -528,13 +547,13 @@ server = function(input, output, session) {
         mode = input$masterPasswordOptions
         if(mode == "Keep") return()
         else updateTextInput(inputId = "masterPassword", value = "")
-      }
-      else {
-        shinyalert("Alert", "This Encrypted database does not exist !", type = "error")
-        shinyjs::hide("confirmEditRecord")
-        shinyjs::hide("cancelEditRecord")
-      }
+      }}
+    else {
+      shinyalert("Alert", "This Encrypted database does not exist !", type = "error")
+      shinyjs::hide("confirmEditRecord")
+      shinyjs::hide("cancelEditRecord")
     }
+    
   })
   
   #### Confirm Edit Record ----
@@ -544,18 +563,18 @@ server = function(input, output, session) {
     Profile = input$profile
     Login = input$login
     Password = input$password
-    
-    if ( is_empty_input(MasterPassword) |
-         is_empty_input(Profile) |
-         is_empty_input(Login) |
-         is_empty_input(Password)
-         
-         
-    ) shinyalert("Alert", "Please fill out all fields: \n Master Password, Profile, Login and Password !", type = "error")
-    else{
-      passphrase <- charToRaw(MasterPassword)
-      key <- openssl::sha256(passphrase)
-      if(file.exists(paste0(path,"Database"))){
+    if(file.exists(paste0(path,"Database"))){
+      if ( is_empty_input(MasterPassword) |
+           is_empty_input(Profile) |
+           is_empty_input(Login) |
+           is_empty_input(Password)
+           
+           
+      ) shinyalert("Alert", "Please fill out all fields: \n Master Password, Profile, Login and Password !", type = "error")
+      else{
+        passphrase <- charToRaw(MasterPassword)
+        key <- openssl::sha256(passphrase)
+        
         database = read.aes(paste0(path,"Database"), key = key)
         if(!all(colnames(database) == c("Account_Type","Profile", "Login", "Password") )) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
         else {
@@ -599,14 +618,14 @@ server = function(input, output, session) {
         mode = input$masterPasswordOptions
         if(mode == "Keep") return()
         else updateTextInput(inputId = "masterPassword", value = "")
-      }
-      else {
-        shinyalert("Alert", "This Encrypted database does not exist !", type = "error")
-        shinyjs::hide("confirmEditRecord")
-        shinyjs::hide("cancelEditRecord")
-        
-      }
-    }})
+      }}
+    else {
+      shinyalert("Alert", "This Encrypted database does not exist !", type = "error")
+      shinyjs::hide("confirmEditRecord")
+      shinyjs::hide("cancelEditRecord")
+      
+    }
+  })
   #### Cancel Edit ----
   observeEvent(input$cancelEditRecord,{
     shinyjs::hide("confirmEditRecord")
@@ -617,15 +636,15 @@ server = function(input, output, session) {
   observeEvent(input$searchProfile,{
     
     MasterPassword = input$masterPassword
-    
-    if (
-      is_empty_input(MasterPassword)
-      
-    ) shinyalert("Alert", "Please fill out all fields: \n Master Password !", type = "error")
-    else{
-      passphrase <- charToRaw(MasterPassword)
-      key <- openssl::sha256(passphrase)
-      if(file.exists(paste0(path,"Database"))){
+    if(file.exists(paste0(path,"Database"))){
+      if (
+        is_empty_input(MasterPassword)
+        
+      ) shinyalert("Alert", "Please fill out all fields: \n Master Password !", type = "error")
+      else{
+        passphrase <- charToRaw(MasterPassword)
+        key <- openssl::sha256(passphrase)
+        
         database = read.aes(paste0(path,"Database"), key = key)
         if(!all(colnames(database) == c("Account_Type","Profile", "Login", "Password") )) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
         else {
@@ -650,9 +669,9 @@ server = function(input, output, session) {
             if(mode == "Keep") return()
             else updateTextInput(inputId = "masterPassword", value = "")
           }}
-      } else shinyalert("Alert", "This Encrypted database does not exist !", type = "error")
-      
-    }
+      }} else shinyalert("Alert", "This Encrypted database does not exist !", type = "error")
+    
+    
   })
   
   
@@ -753,47 +772,47 @@ server = function(input, output, session) {
     },
     content = function(file) {
       MasterPassword = input$masterPassword
-      
-      if (
-        is_empty_input(MasterPassword)
-        
+      if(file.exists(paste0(path,"Database"))){
+        if (
+          is_empty_input(MasterPassword)
+          
+        ) shinyalert("Alert", "Please fill out all fields: \n Master Password !", type = "error")
+        else {
+          passphrase <- charToRaw(MasterPassword)
+          key <- openssl::sha256(passphrase)
+          
+          database = read.aes(paste0(path,"Database"), key = key)
+          if(!all(colnames(database) == c("Profile", "Login", "Password") )) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
+          else write.aes(database, file, key = key)
+        }
+      } else shinyalert("Alert", "This Encrypted database does not exist !", type = "error")
+    })
+  
+  #### Remove Duplicates ----
+  observeEvent(input$removeDuplicates,{
+    
+    MasterPassword = input$masterPassword
+    if(file.exists(paste0(path,"Database"))){
+      if (is_empty_input(MasterPassword)
+          
       ) shinyalert("Alert", "Please fill out all fields: \n Master Password !", type = "error")
       else {
         passphrase <- charToRaw(MasterPassword)
         key <- openssl::sha256(passphrase)
         
         database = read.aes(paste0(path,"Database"), key = key)
-        if(!all(colnames(database) == c("Profile", "Login", "Password") )) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
-        else write.aes(database, file, key = key)
-      }
-    }
-  )
-  
-  #### Remove Duplicates ----
-  observeEvent(input$removeDuplicates,{
-    
-    MasterPassword = input$masterPassword
-    
-    if (is_empty_input(MasterPassword)
-        
-    ) shinyalert("Alert", "Please fill out all fields: \n Master Password !", type = "error")
-    else {
-      passphrase <- charToRaw(MasterPassword)
-      key <- openssl::sha256(passphrase)
-      
-      database = read.aes(paste0(path,"Database"), key = key)
-      if(!all(colnames(database) == c("Account_Type","Profile", "Login", "Password") )) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
-      else {
-        database = unique(database)
-        write.aes(database, paste0(path,"Database"), key=key)
-        
-        shinyalert("Success", "You have successfully removed all duplicates !", type = "success")
-        
-        output$Database = renderDataTable({
-          reload_database_table(input$masterPassword, path)
-        })
-      }
-    }
+        if(!all(colnames(database) == c("Account_Type","Profile", "Login", "Password") )) shinyalert("Alert", "Wrong Master Password !\n Please input correct Master Password !", type = "error")
+        else {
+          database = unique(database)
+          write.aes(database, paste0(path,"Database"), key=key)
+          
+          shinyalert("Success", "You have successfully removed all duplicates !", type = "success")
+          
+          output$Database = renderDataTable({
+            reload_database_table(input$masterPassword, path)
+          })
+        }
+      }} else shinyalert("Alert", "This Encrypted database does not exist !", type = "error")
   })
   #### User manual ----
   observeEvent(input$userManual,{
