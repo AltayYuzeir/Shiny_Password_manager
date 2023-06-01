@@ -1,24 +1,38 @@
 
-UserInterface_items = list(
+categories <<- c(
+  "Social media",
+  "Web account",
+  "Email",
+  "Credit card",
+  "Bank details",
+  "Healthcare account",
+  "Bills acount",
+  "Tax account",
+  "Pension account",
+  "Insurance account",
+  "Streaming service",
+  "Gaming",
+  "Online shopping",
+  "Wifi account",
+  "Other")
 
+UserInterface_items = list(
 
 p(),
 fluidRow(column(width = 9,
-                div(id = "masterPasswordLabel",passwordInput(inputId = "masterPassword",
+             passwordInput(inputId = "masterPassword",
                                                              label = "Master Password:",
                                                              placeholder = "3a2TR_3GG!!!_12land2;)",
                                                              width = "95%"
-                ))),
-         tags$style(type="text/css", "#masterPasswordLabel {color:white;}"),
+                )),
          tags$style(type="text/css", "#masterPassword {font-family:'Lucida Console';}"),
          
          column(width = 3,
-                div(id ="masterPasswordOptions", radioButtons("masterPasswordOptions", "Select mode:", 
+                 radioButtons("masterPasswordOptions", "Select mode:", 
                                                               choices = c("Clear Master Password"="Clear", "Keep Master Password"="Keep"),
                                                               selected = "Keep",
                                                               inline = F)
-                ))),
-tags$style(type="text/css", "#masterPasswordOptions {color:white;}"),
+                )),
 
 fluidRow(
   column(
@@ -50,7 +64,6 @@ fluidRow(
 ),
 tags$style(type='text/css', "input#showhideMasterPasswordField {font-family:'Lucida Console'; margin-bottom: -20px; margin-left: -50px; margin-right: 0px;width: 390px}"),
 tags$style(type='text/css', "button#hideMasterPass {  margin-left: -70px; }"),
-tags$style(type="text/css", "#themeOptions {color:white;}"),
 p(),
 fluidRow(
   column(width = 7,
@@ -73,32 +86,19 @@ tags$style(type='text/css', "button#cancelNewMasterPass { margin-left: 30px; }")
 hr(),
 fluidRow(
   column(width = 4,
-         div(id = "typeLabel",selectInput(inputId = "type",
+         selectInput(inputId = "type",
                                            label = "Select account type:",
-                                           choices = c("Web account",
-                                                       "Email",
-                                                       "Credit card",
-                                                       "Bank details",
-                                                       "Healthcare account",
-                                                       "Bills acount",
-                                                       "Tax account",
-                                                       "Pension account",
-                                                       "Insurance account",
-                                                       "Streaming account",
-                                                       "Gaming account",
-                                                       "Shopping account",
-                                                       "Wifi account",
-                                                       "Other"),
-                                           selected = "Website"
+                                           choices = categories,
+                                           selected = categories[1]
                                            
-         ))
+         )
   ),
   column(width = 5,
-div(id = "profileLabel",textInput(inputId = "profile",
+textInput(inputId = "profile",
                                   label = "Enter Profile:",
                                   placeholder = "bubble.com"
                                   
-))
+)
 )
 ,column(width = 2,
    div( id = "new_type",
@@ -110,14 +110,12 @@ div(id = "profileLabel",textInput(inputId = "profile",
 ),
 tags$style(type="text/css", "button#new_type { margin-left: 0px; margin-top:25px;}"),
 
-tags$style(type="text/css", "#typeLabel {color:white;}"),
 tags$style(type="text/css", ".selectize-input {font-family:'Lucida Console';} .selectize-dropdown {font-family:'Lucida Console';}"),
-tags$style(type="text/css", "#profileLabel {color:white;}"),
 tags$style(type="text/css", "#profile {font-family:'Lucida Console';}"),
 fluidRow(
   column(width = 6,
-         shinyjs::hidden(div(id = "addNewTypeLabel", textInput("addNewType", "Enter new type: (Non-persistent)",
-                   placeholder = "Personal account")))),
+         shinyjs::hidden(textInput("addNewType", "Enter new type: (Non-persistent)",
+                   placeholder = "Personal account"))),
   column(width = 3,
          shinyjs::hidden(actionButton("confirmNewType", "Confirm new type", 
                                       icon = icon("check"), style = "background:#ccff99;color:#404040;"))),
@@ -126,7 +124,6 @@ fluidRow(
                                       icon = icon("ban"), style = "background:#ff9999;color:#404040;")))
   
 ),
-tags$style(type="text/css", "#addNewTypeLabel {color:white;}"),
 tags$style(type="text/css", "#addNewType {font-family:'Lucida Console';}"),
 tags$style(type="text/css", "button#confirmNewType { margin-left: -100px; margin-top:25px;}"),
 tags$style(type="text/css", "button#cancelNewType { margin-left: -140px; margin-top:25px;}"),
@@ -134,14 +131,13 @@ tags$style(type="text/css", "button#cancelNewType { margin-left: -140px; margin-
 fluidRow(
   
   column(width = 5,
-         div(
-           id = "loginLabel",
+        
            textInput(
              inputId = "login",
              label = "Enter Login:",
              placeholder = "SlowGenomics1337"
              
-           )
+           
          )),
   column(width = 2,
          
@@ -156,19 +152,18 @@ fluidRow(
     div(id = "login2clipboard", uiOutput("login2clipboard"))
   )
 ),
-tags$style(type="text/css", "#loginLabel {color:white;}"),
 tags$style(type="text/css", "#login {font-family:'Lucida Console';}"),
 tags$style(type="text/css", "button#pasteLogin { margin-left: -30px; margin-top:25px;}"),
 tags$style(type="text/css", "#login2clipboard {margin-top:25px;}"),
 
 fluidRow(
   column(width = 7,
-         div(id ="passwordLabel",passwordInput(inputId = "password",
+passwordInput(inputId = "password",
                                                label = "Enter Password:",
                                                placeholder = "D1r7D3v1LChub8yB3rRy",
                                                width = "100%"
                                                
-         ))),
+         )),
   column(width = 2,
          div(
            id = "pastePassword",
@@ -177,7 +172,6 @@ fluidRow(
                         style = "background:#99ccff;color:#404040;")
          ))
 ),
-tags$style(type="text/css", "#passwordLabel {color:white;}"),
 tags$style(type="text/css", "#password {font-family:'Lucida Console';;}"),
 tags$style(type="text/css", "button#pastePassword{ margin-top:25px;}"),
 
@@ -348,7 +342,7 @@ fluidRow(
 hr(),
 
 div(style="text-align:center; color: #80b3ff", tags$b("Copyright"),icon("copyright"),
-    tags$b("2022-2022"), tags$b(" | "), 
+    tags$b("2022-present"), tags$b(" | "), 
     tags$b("Altay Yuzeir"),
     tags$a(href ="https://github.com/AltayYuzeir/Shiny_Password_manager",
            tags$b(tags$span(style = "color: #80b3ff", icon("github"), "GitHub")),
