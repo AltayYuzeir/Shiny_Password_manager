@@ -10,6 +10,7 @@ I could not find a usable password manager written in R and Shiny, so I decided 
 Current version v1.3:
 - Database Table now contains all your passwords as a hidden string 🔥**NEW**🔥
 - The passwords can be revealed individually and hidden again 🔥**NEW**🔥
+- Master Password now sits above both tabs for better user experince and ease of use 🔥**NEW**🔥
 
 Version v1.2
 - Profiles and Logins can easily be browsed in the _*Database Table*_ tab (Master Password needed)
