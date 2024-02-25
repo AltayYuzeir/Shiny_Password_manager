@@ -12,8 +12,8 @@ Current version v2:
 - The passwords can be revealed individually and hidden again 🔥**NEW**🔥
 
 Version v1.2
-- Profiles and Logins can easily be browsed in the _*Database Table*_ tab (Master Password needed) 🔥**NEW**🔥
-- You can now choose a Profile category from a list _and_ add your own categories (non-persistent) 🔥**NEW**🔥
+- Profiles and Logins can easily be browsed in the _*Database Table*_ tab (Master Password needed)
+- You can now choose a Profile category from a list _and_ add your own categories (non-persistent)
 
 <img src="user_interface_ui.png" align="center" width=100% height=auto alt="" />
 <img src="user_interface_table.png" align="center" width=100% height=auto alt="" />
