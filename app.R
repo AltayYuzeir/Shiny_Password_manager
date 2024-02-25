@@ -8,7 +8,9 @@ library(shinyalert) # fancy alerts for success and failure
 #library(digest)
 #library(words) # database to use for random password generator
 #library(dplyr)
-#library(stringr)
+#library(stringr)#
+
+library(DT)
 
 source(file = "functions.R")
 source(file = "user_manual.R")
@@ -23,7 +25,29 @@ path = paste0(path, "/YuPass_Password_Manager/")
 word_bank = words::words
 if(!dir.exists(path)) dir.create(path)
 
+js <- "
+function(cell) {
+  var $cell = $(cell);
+  var originalText = $cell.text(); // Save original text
+  var hiddenText = '*'.repeat(originalText.length); // Create string of stars with same length
+  $cell.html('<span>' + hiddenText + '</span>'); // Initially set text to hiddenText inside a span
+  var $btn = $('<button style=\"margin-left: 10px; color: black;\">Show Password</button>'); // Create the button with margin-left and black text
+  $cell.append($btn); // Append button to cell
+  var isHidden = true;
 
+  $btn.click(function () {
+    var $textSpan = $cell.find('span');
+    if (isHidden) {
+      $textSpan.text(originalText); // Show original text
+      $btn.text('Hide Password');
+    } else {
+      $textSpan.text(hiddenText); // Hide text with stars
+      $btn.text('Show Password');
+    }
+    isHidden = !isHidden;
+  });
+}
+"
 
 #### UI ----
 ui = fluidPage(   
@@ -51,21 +75,94 @@ ui = fluidPage(
       tags$head(tags$style(
         HTML("hr {border-top: 1px solid #ffffff;}")
       )),
+      fluidRow(column(width = 9,
+                      div(id = "masterPasswordLabel",passwordInput(inputId = "masterPassword",
+                                                                   label = "Master Password:",
+                                                                   placeholder = "3a2TR_3GG!!!_12land2;)",
+                                                                   width = "95%"
+                      ))),
+               tags$style(type="text/css", "#masterPassword {font-family:'Lucida Console';}"),
+               tags$style(type='text/css', "#masterPasswordLabel {color: white; }"),
+               column(width = 3,
+                      div(id = "masterPasswordOptionsLabel", radioButtons("masterPasswordOptions", "Select mode:", 
+                                                                          choices = c("Clear Master Password"="Clear", "Keep Master Password"="Keep"),
+                                                                          selected = "Keep",
+                                                                          inline = F))
+               ),
+               tags$style(type='text/css', "#masterPasswordOptionsLabel {color: white; }"),
+               
+      ),
+      fluidRow(
+        column(
+          width = 2,
+          actionButton("showMasterPass",
+                       "Show",
+                       icon = icon("eye"),
+                       style = "background:#ccccff;color:#404040;")
+        ),
+        column(
+          width = 6,
+          shinyjs::hidden(textInput("showhideMasterPasswordField", label = NULL)),
+        ),
+        column(
+          width = 1,
+          actionButton("hideMasterPass",
+                       "Hide",
+                       icon = icon("eye-slash"),
+                       style = "background:#ccccff;color:#404040;")
+        ),
+        
+        column(
+          width = 2,
+          actionButton("changeMasterPassword",
+                       "Change Master Pass",
+                       icon = icon("triangle-exclamation"),
+                       style = "background:#666699;color:white;")
+        )
+      ),
+      tags$style(type='text/css', "input#showhideMasterPasswordField {font-family:'Lucida Console'; margin-bottom: -20px; margin-left: -50px; margin-right: 0px;width: 390px}"),
+      tags$style(type='text/css', "button#hideMasterPass {  margin-left: -70px; }"),
+      p(),
+      fluidRow(
+        column(width = 7,
+               shinyjs::hidden(textInput("newMasterPasswordField", label = NULL, width = "100%",
+                                         placeholder = "Enter new Master Password here"))
+        ),
+        column(width = 2,
+               shinyjs::hidden(actionButton("confirmNewMasterPass", "Confirm Change", 
+                                            icon = icon("check-double"),
+                                            style = "background:#669900;"))
+        ),
+        column(width = 2,
+               shinyjs::hidden(actionButton("cancelNewMasterPass", "Cancel Change",
+                                            icon = icon("ban"),
+                                            style = "background:#999966;"))
+        )
+        
+      ),
+      tags$style(type='text/css', "button#cancelNewMasterPass { margin-left: 30px; }"),
+      #hr(),
+      p(),
+      p(),
       tabsetPanel(type = "tabs",
-                  tabPanel(span(style = "color:#9999ff;font-weight:bold;",
-                                "User Interface"),
+                  tabPanel(span(style = "color:#336699;font-weight:bold;",
+                                "Actions Tab"),
                            style = "color:white",
                            UserInterface_items,
-                           icon = span(style = "color:#9999ff;font-weight:bold;",
+                           icon = span(style = "color:#336699;font-weight:bold;",
                                        icon("keyboard"))
                   ),
-                  tabPanel(span(style = "color:#cc6699;font-weight:bold;",
+                  tabPanel(span(style = "color:#993300;font-weight:bold;",
                                 "Database Table"), 
                            p(),
+                           
                            p(span(style ="color:#888888;font-weight:bold;",
-                                  'If you see message starting with "Error:", your Master password is wrong !')),
+                                  'If you see message starting with "Error:", your Master Password is wrong !')),
                            span(style = "color:#cc6699;font-weight:bold;font-family:'Lucida Console';",
-                                dataTableOutput("Database")
+                                dataTableOutput("Database"),
+                                tags$head(tags$style("#Database {color: white;}")),
+                                tags$head(tags$style("#Database .dataTables_filter input {
+          background:white;color:#4d4d4d;}")),
                            ),
                            hr(),
                            
@@ -75,7 +172,7 @@ ui = fluidPage(
                                       tags$b(tags$span(style = "color: #80b3ff", icon("github"), "GitHub")),
                                       target = "_blank")),
                            
-                           icon = span(style = "color:#cc6699;font-weight:bold;",
+                           icon = span(style = "color:#993300;font-weight:bold;",
                                        icon("table"))
                   )
       )
@@ -87,8 +184,19 @@ ui = fluidPage(
 server = function(input, output, session) {
   
   # Database tab ----
-  output$Database = renderDataTable({
-    reload_database_table(input$masterPassword, path)
+  output$Database = DT::renderDataTable({
+    #reload_database_table(input$masterPassword, path)
+    
+    DT::datatable(reload_database_table(input$masterPassword, path), 
+                  rownames = FALSE, selection = "none",
+                  options = list(
+                    "columnDefs" = list(
+                      list(
+                        "targets" = c(3),
+                        "createdCell" = JS(js),
+                        className = 'dt-left'
+                      ) ) ))%>% DT::formatStyle(columns = names(data), color="white")
+    
   })
   
   shinytitle::change_window_title(session, title = "YuPass")
@@ -311,7 +419,18 @@ server = function(input, output, session) {
             shinyalert("Success", "Record successfully added to the database !", type = "success")
             
             output$Database = renderDataTable({
-              reload_database_table(input$masterPassword, path)
+              #reload_database_table(input$masterPassword, path)
+              
+              DT::datatable(reload_database_table(input$masterPassword, path), 
+                            rownames = FALSE, selection = "none",
+                            options = list(
+                              "columnDefs" = list(
+                                list(
+                                  "targets" = c(3),
+                                  "createdCell" = JS(js),
+                                  className = 'dt-left'
+                                ) ) ))%>% DT::formatStyle(columns = names(data), color="white")
+              
             })
             
             shinyjs::hide(id = "searchProfileField")
@@ -348,7 +467,18 @@ server = function(input, output, session) {
               shinyalert("Success", "You have created new \n Encrypted password database !", type = "success")
               
               output$Database = renderDataTable({
-                reload_database_table(input$masterPassword, path)
+                #reload_database_table(input$masterPassword, path)
+                
+                DT::datatable(reload_database_table(input$masterPassword, path), 
+                              rownames = FALSE, selection = "none",
+                              options = list(
+                                "columnDefs" = list(
+                                  list(
+                                    "targets" = c(3),
+                                    "createdCell" = JS(js),
+                                    className = 'dt-left'
+                                  ) ) ))%>% DT::formatStyle(columns = names(data), color="white")
+                
               })
               
               shinyjs::hide(id = "searchProfileField")
@@ -479,7 +609,18 @@ server = function(input, output, session) {
             
             
             output$Database = renderDataTable({
-              reload_database_table(input$masterPassword, path)
+              #reload_database_table(input$masterPassword, path)
+              
+              DT::datatable(reload_database_table(input$masterPassword, path), 
+                            rownames = FALSE, selection = "none",
+                            options = list(
+                              "columnDefs" = list(
+                                list(
+                                  "targets" = c(3),
+                                  "createdCell" = JS(js),
+                                  className = 'dt-left'
+                                ) ) ))%>% DT::formatStyle(columns = names(data), color="white")
+              
             })
             
             shinyjs::hide(id = "searchProfileField")
@@ -622,7 +763,18 @@ server = function(input, output, session) {
             shinyjs::show("editRecord")
             
             output$Database = renderDataTable({
-              reload_database_table(input$masterPassword, path)
+              #reload_database_table(input$masterPassword, path)
+              
+              DT::datatable(reload_database_table(input$masterPassword, path), 
+                            rownames = FALSE, selection = "none",
+                            options = list(
+                              "columnDefs" = list(
+                                list(
+                                  "targets" = c(3),
+                                  "createdCell" = JS(js),
+                                  className = 'dt-left'
+                                ) ) ))%>% DT::formatStyle(columns = names(data), color="white")
+              
             })
             
             shinyjs::hide(id = "searchProfileField")
@@ -835,7 +987,18 @@ server = function(input, output, session) {
           shinyalert("Success", "You have successfully removed all duplicates !", type = "success")
           
           output$Database = renderDataTable({
-            reload_database_table(input$masterPassword, path)
+            #reload_database_table(input$masterPassword, path)
+            
+            DT::datatable(reload_database_table(input$masterPassword, path), 
+                          rownames = FALSE, selection = "none",
+                          options = list(
+                            "columnDefs" = list(
+                              list(
+                                "targets" = c(3),
+                                "createdCell" = JS(js),
+                                className = 'dt-left'
+                              ) ) ))%>% DT::formatStyle(columns = names(data), color="white")
+            
           })
         }
       }}
@@ -904,8 +1067,8 @@ server = function(input, output, session) {
   
   #### Turn off Username Generator ----
   observeEvent(input$turnOffUsername,{
-    updateTextInput(inputId = "randomUsername", value = "")
     updateTextInput(inputId = "appendNum", value = "")
+    updateTextInput(inputId = "randomUsername", value = "")
     shinyjs::hide(id = "randomUsername")
     shinyjs::hide(id = "appendNum")
     shinyjs::hide(id = "copyRandomUsername2clipboard")
