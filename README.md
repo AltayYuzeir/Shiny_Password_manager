@@ -7,7 +7,7 @@ What I like about YuPass is that you always know where your encrypted databse is
 I have worked on this project in my free time to help me out improve my R and Shiny skills and knowledge.\
 I could not find a usable password manager written in R and Shiny, so I decided to try and build one :)
 
-Current version v2:
+Current version v1.3:
 - Database Table now contains all your passwords as a hidden string 🔥**NEW**🔥
 - The passwords can be revealed individually and hidden again 🔥**NEW**🔥
 
