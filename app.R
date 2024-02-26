@@ -418,7 +418,7 @@ server = function(input, output, session) {
             
             shinyalert("Success", "Record successfully added to the database !", type = "success")
             
-            output$Database = renderDataTable({
+            output$Database = DT::renderDataTable({
               #reload_database_table(input$masterPassword, path)
               
               DT::datatable(reload_database_table(input$masterPassword, path), 
@@ -466,7 +466,7 @@ server = function(input, output, session) {
               write.aes(database, paste0(path,"Database"), key = key)
               shinyalert("Success", "You have created new \n Encrypted password database !", type = "success")
               
-              output$Database = renderDataTable({
+              output$Database = DT::renderDataTable({
                 #reload_database_table(input$masterPassword, path)
                 
                 DT::datatable(reload_database_table(input$masterPassword, path), 
@@ -608,7 +608,7 @@ server = function(input, output, session) {
             shinyjs::show("deleteRecord")
             
             
-            output$Database = renderDataTable({
+            output$Database = DT::renderDataTable({
               #reload_database_table(input$masterPassword, path)
               
               DT::datatable(reload_database_table(input$masterPassword, path), 
@@ -762,7 +762,7 @@ server = function(input, output, session) {
             shinyjs::hide("cancelEditRecord")
             shinyjs::show("editRecord")
             
-            output$Database = renderDataTable({
+            output$Database = DT::renderDataTable({
               #reload_database_table(input$masterPassword, path)
               
               DT::datatable(reload_database_table(input$masterPassword, path), 
@@ -986,7 +986,7 @@ server = function(input, output, session) {
           
           shinyalert("Success", "You have successfully removed all duplicates !", type = "success")
           
-          output$Database = renderDataTable({
+          output$Database = DT::renderDataTable({
             #reload_database_table(input$masterPassword, path)
             
             DT::datatable(reload_database_table(input$masterPassword, path), 
