@@ -51,6 +51,7 @@ function(cell) {
 
 #### UI ----
 ui = fluidPage(   
+  tags$head(tags$link(rel="shortcut icon", href="unlock-keyhole-solid.svg")),
   
   setBackgroundColor("#404040"), # #93c2eb
   #setBackgroundColor("#93c2eb"), # #93c2eb
@@ -418,7 +419,7 @@ server = function(input, output, session) {
             
             shinyalert("Success", "Record successfully added to the database !", type = "success")
             
-            output$Database = DT::renderDataTable({
+            output$Database = renderDataTable({
               #reload_database_table(input$masterPassword, path)
               
               DT::datatable(reload_database_table(input$masterPassword, path), 
@@ -466,7 +467,7 @@ server = function(input, output, session) {
               write.aes(database, paste0(path,"Database"), key = key)
               shinyalert("Success", "You have created new \n Encrypted password database !", type = "success")
               
-              output$Database = DT::renderDataTable({
+              output$Database = renderDataTable({
                 #reload_database_table(input$masterPassword, path)
                 
                 DT::datatable(reload_database_table(input$masterPassword, path), 
@@ -608,7 +609,7 @@ server = function(input, output, session) {
             shinyjs::show("deleteRecord")
             
             
-            output$Database = DT::renderDataTable({
+            output$Database = renderDataTable({
               #reload_database_table(input$masterPassword, path)
               
               DT::datatable(reload_database_table(input$masterPassword, path), 
@@ -762,7 +763,7 @@ server = function(input, output, session) {
             shinyjs::hide("cancelEditRecord")
             shinyjs::show("editRecord")
             
-            output$Database = DT::renderDataTable({
+            output$Database = renderDataTable({
               #reload_database_table(input$masterPassword, path)
               
               DT::datatable(reload_database_table(input$masterPassword, path), 
@@ -986,7 +987,7 @@ server = function(input, output, session) {
           
           shinyalert("Success", "You have successfully removed all duplicates !", type = "success")
           
-          output$Database = DT::renderDataTable({
+          output$Database = renderDataTable({
             #reload_database_table(input$masterPassword, path)
             
             DT::datatable(reload_database_table(input$masterPassword, path), 
