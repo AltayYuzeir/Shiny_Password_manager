@@ -160,7 +160,7 @@ ui = fluidPage(
                            p(span(style ="color:#888888;font-weight:bold;",
                                   'If you see message starting with "Error:", your Master Password is wrong !')),
                            span(style = "color:#cc6699;font-weight:bold;font-family:'Lucida Console';",
-                                dataTableOutput("Database"),
+                                DT::DTOutput("Database"),
                                 tags$head(tags$style("#Database {color: white;}")),
                                 tags$head(tags$style("#Database .dataTables_filter input {
           background:white;color:#4d4d4d;}")),
@@ -467,7 +467,7 @@ server = function(input, output, session) {
               write.aes(database, paste0(path,"Database"), key = key)
               shinyalert("Success", "You have created new \n Encrypted password database !", type = "success")
               
-              output$Database = renderDataTable({
+              output$Database = DT::renderDT({
                 #reload_database_table(input$masterPassword, path)
                 
                 DT::datatable(reload_database_table(input$masterPassword, path), 
@@ -609,7 +609,7 @@ server = function(input, output, session) {
             shinyjs::show("deleteRecord")
             
             
-            output$Database = renderDataTable({
+            output$Database = DT::renderDT({
               #reload_database_table(input$masterPassword, path)
               
               DT::datatable(reload_database_table(input$masterPassword, path), 
@@ -763,7 +763,7 @@ server = function(input, output, session) {
             shinyjs::hide("cancelEditRecord")
             shinyjs::show("editRecord")
             
-            output$Database = renderDataTable({
+            output$Database = DT::renderDT({
               #reload_database_table(input$masterPassword, path)
               
               DT::datatable(reload_database_table(input$masterPassword, path), 
@@ -987,7 +987,7 @@ server = function(input, output, session) {
           
           shinyalert("Success", "You have successfully removed all duplicates !", type = "success")
           
-          output$Database = renderDataTable({
+          output$Database = DT::renderDT({
             #reload_database_table(input$masterPassword, path)
             
             DT::datatable(reload_database_table(input$masterPassword, path), 
