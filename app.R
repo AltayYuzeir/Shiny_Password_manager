@@ -31,7 +31,7 @@ function(cell) {
   var originalText = $cell.text(); // Save original text
   var hiddenText = '*'.repeat(originalText.length); // Create string of stars with same length
   $cell.html('<span>' + hiddenText + '</span>'); // Initially set text to hiddenText inside a span
-  var $btn = $('<button style=\"margin-left: 10px; color: black;\">Show Password</button>'); // Create the button with margin-left and black text
+  var $btn = $('<button style=\"margin-left: 10px; color: black;\"><i class=\"fas fa-eye\"></i> Show</button>'); // Create the button with Font Awesome icon and black text
   $cell.append($btn); // Append button to cell
   var isHidden = true;
 
@@ -39,15 +39,16 @@ function(cell) {
     var $textSpan = $cell.find('span');
     if (isHidden) {
       $textSpan.text(originalText); // Show original text
-      $btn.text('Hide Password');
+      $btn.html('<i class=\"fas fa-eye-slash\"></i> Hide'); // Change button text and icon
     } else {
       $textSpan.text(hiddenText); // Hide text with stars
-      $btn.text('Show Password');
+      $btn.html('<i class=\"fas fa-eye\"></i> Show'); // Change button text and icon
     }
     isHidden = !isHidden;
   });
 }
 "
+
 
 #### UI ----
 ui = fluidPage(   
